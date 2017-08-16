@@ -1,0 +1,2973 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.10.1.6676/W32 for ARM        24/Jun/2015  14:29:00
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\src\Sources\C\main.c
+#    Command line =  
+#        "C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\src\Sources\C\main.c" -D IAR -D TWR_K60N512
+#        -lCN "C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\bin\Flash\List\" -lB
+#        "C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\bin\Flash\List\" -o
+#        "C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\bin\Flash\Obj\" --no_cse --no_unroll
+#        --no_inline --no_code_motion --no_tbaa --no_clustering --no_scheduling
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=None --dlib_config
+#        "D:\MyProgramFiles\IAR V7.1\arm\INC\c\DLib_Config_Normal.h" -I
+#        "C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\src\Sources\H\" -I
+#        "C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\src\Sources\H\Component_H\" -I
+#        "C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\src\Sources\H\Frame_H\" -Ol --use_c++_inline
+#    List file    =  
+#        C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\bin\Flash\List\main.lst
+#    Object file  =  
+#        C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new
+#        board\PhysiologicalTests\bin\Flash\Obj\main.o
+#
+###############################################################################
+
+C:\Users\ZXJ\Desktop\人体生理指数测试系统\下位机\K60 new board\PhysiologicalTests\src\Sources\C\main.c
+      1          //头文件
+      2          #include "includes.h"
+      3          
+      4          //全局变量声明
+      5          extern int periph_clk_khz;
+      6          
+      7          extern  uint8   BUF[8];                             	                    
+      8          extern  int    off_y[20];
+
+   \                                 In section .bss, align 4
+      9                  int     OFF_Y=0;
+   \                     OFF_Y:
+   \   00000000                      DS8 4
+
+   \                                 In section .bss, align 4
+     10                  int     YBack=0;
+   \                     YBack:
+   \   00000000                      DS8 4
+
+   \                                 In section .bss, align 1
+     11                  uint8   temp=0;
+   \                     temp:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 4
+     12                  int     YMax=0,YMin=0;
+   \                     YMax:
+   \   00000000                      DS8 4
+
+   \                                 In section .bss, align 4
+   \                     YMin:
+   \   00000000                      DS8 4
+     13                  
+
+   \                                 In section .bss, align 4
+     14                  int16   Up[1000]={0};
+   \                     Up:
+   \   00000000                      DS8 2000
+
+   \                                 In section .bss, align 2
+     15                  uint16  Mid1=0,Mid2=0,End=0,Cnt=0;
+   \                     Mid1:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 2
+   \                     Mid2:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 2
+   \                     End:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 2
+   \                     Cnt:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 2
+     16                  int16   Aver1=0,Aver2=0,Aver3=0;
+   \                     Aver1:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 2
+   \                     Aver2:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 2
+   \                     Aver3:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 1
+     17                  uint8   Aver8_1=0,Aver8_2=0,Aver8_3=0;
+   \                     Aver8_1:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 1
+   \                     Aver8_2:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 1
+   \                     Aver8_3:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 2
+     18                  int16   UpBuf=0;
+   \                     UpBuf:
+   \   00000000                      DS8 2
+
+   \                                 In section .bss, align 1
+     19                  uint8   UpBuf1=0,UpBuf1_pre=0;
+   \                     UpBuf1:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 1
+   \                     UpBuf1_pre:
+   \   00000000                      DS8 1
+     20                  
+
+   \                                 In section .bss, align 1
+     21                  uint8  UpCnt=0;
+   \                     UpCnt:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 4
+     22                  uint8  tmp_buf[33],TmpPre=0;
+   \                     tmp_buf:
+   \   00000000                      DS8 36
+
+   \                                 In section .bss, align 1
+   \                     TmpPre:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 1
+     23                  uint8  tmp_buf_cn=0;
+   \                     tmp_buf_cn:
+   \   00000000                      DS8 1
+
+   \                                 In section .bss, align 1
+     24                  uint8  avr_count=0;
+   \                     avr_count:
+   \   00000000                      DS8 1
+     25                  
+     26          
+
+   \                                 In section .data, align 1
+     27                  uint8  key_num=255;
+   \                     key_num:
+   \   00000000   0xFF               DC8 255
+
+   \                                 In section .data, align 1
+     28                  uint8  key_no=255;
+   \                     key_no:
+   \   00000000   0xFF               DC8 255
+
+   \                                 In section .data, align 1
+     29                  uint8  BK=255;
+   \                     BK:
+   \   00000000   0xFF               DC8 255
+     30                  
+     31          extern  uint16 add;
+     32          extern  uint32 PwmStart;
+     33          extern  uint32 PwmStop;
+     34          extern  uint32 PwmMid;
+     35          extern  uint32 PwmBack;
+     36          
+     37          extern  uint16 SecStart,SecMid,SecStop,SecBack1,SecBack2;
+     38          
+     39          
+     40          extern  int32  PwmDuty;
+     41          extern  int32  PwmSet;
+     42          extern  uint8  g_n1msEventCount;
+     43          extern  uint8  g_n1msEventFlag;
+     44          
+     45          extern  uint8  command_str[10];
+     46          extern  uint8  analyse_over;
+     47          extern  int    FTM_Count;
+     48          
+
+   \                                 In section .bss, align 4
+     49          uint32 PIT1_CurrentVAL0=0,PIT1_CurrentVAL1=0;
+   \                     PIT1_CurrentVAL0:
+   \   00000000                      DS8 4
+
+   \                                 In section .bss, align 4
+   \                     PIT1_CurrentVAL1:
+   \   00000000                      DS8 4
+     50          
+     51          
+     52          extern uint16 OutData[4];
+     53          extern uint8 PB1,PE24;
+     54          extern uint8 StepOk;
+     55          extern uint8 PB1_flag,PE24_flag;
+     56          
+     57          extern uint8 ForB;
+     58          
+     59          extern uint8 BufBegin;
+     60          
+     61          extern int16 g_nMotorPulseSigma;
+     62          
+
+   \                                 In section .bss, align 1
+     63          uint8 first=0;
+   \                     first:
+   \   00000000                      DS8 1
+     64          extern int32  BatteryVoltage;
+     65          extern int16  chainage;
+     66          
+     67          //函数声明
+     68          
+     69          void AdjustPara();
+     70          void system_init();
+     71          
+     72          //主函数8
+
+   \                                 In section .text, align 4, keep-with-next
+     73          void main(void)
+     74          {
+   \                     main: (+1)
+   \   00000000   0xB510             PUSH     {R4,LR}
+     75            uint8 i=0;
+   \   00000002   0x2400             MOVS     R4,#+0
+     76            
+     77            system_init();
+   \   00000004   0x.... 0x....      BL       system_init
+     78            serial_choose();
+   \   00000008   0x.... 0x....      BL       serial_choose
+   \   0000000C   0xE009             B.N      ??main_0
+     79            
+     80            while(NRF24L01_Check())
+     81            {
+     82              LCD_P8x16Str(0,0,"nrf24l01 err");
+   \                     ??main_1: (+1)
+   \   0000000E   0x.... 0x....      LDR.W    R2,??DataTable1_3
+   \   00000012   0x2100             MOVS     R1,#+0
+   \   00000014   0x2000             MOVS     R0,#+0
+   \   00000016   0x.... 0x....      BL       LCD_P8x16Str
+     83              delay_ms(1000);
+   \   0000001A   0xF44F 0x707A      MOV      R0,#+1000
+   \   0000001E   0x.... 0x....      BL       delay_ms
+     84            }
+   \                     ??main_0: (+1)
+   \   00000022   0x.... 0x....      BL       NRF24L01_Check
+   \   00000026   0x2800             CMP      R0,#+0
+   \   00000028   0xD1F1             BNE.N    ??main_1
+     85            LCD_P8x16Str(0,0,"nrf24l01 ok");
+   \   0000002A   0x.... 0x....      LDR.W    R2,??DataTable1_4
+   \   0000002E   0x2100             MOVS     R1,#+0
+   \   00000030   0x2000             MOVS     R0,#+0
+   \   00000032   0x.... 0x....      BL       LCD_P8x16Str
+     86            delay_ms(500);
+   \   00000036   0xF44F 0x70FA      MOV      R0,#+500
+   \   0000003A   0x.... 0x....      BL       delay_ms
+     87            LCD_CLS();
+   \   0000003E   0x.... 0x....      BL       LCD_CLS
+     88            NRF24L01_RX_Mode();
+   \   00000042   0x.... 0x....      BL       NRF24L01_RX_Mode
+   \   00000046   0xE005             B.N      ??main_2
+     89            
+     90            while(1)
+     91            {
+     92              //1-步进电机--------------------
+     93              while(1)
+     94              {     
+     95                 first=1;
+     96                 if(g_n1msEventCount==0)
+     97                 { //2---        
+     98                   LCD_P8x16Str(0,2,"B:");LCD_P8x16_number(30,2,PB1_flag);
+     99                   LCD_P8x16Str(60,2,"E:");LCD_P8x16_number(100,2,PE24_flag);
+    100                   //4---
+    101                   LCD_P8x16Str(0,4,"Sok:");LCD_P8x16_number(30,4,StepOk);
+    102                   LCD_P8x16Str(60,4,"fir:");LCD_P8x16_number(100,4,first);
+    103                   //6---
+    104                   LCD_P8x16Str(60,6,"BV:");LCD_P8x16_number_4(85,6,BatteryVoltage);
+    105                 }
+    106                 if(!analyse_over)
+    107                 {
+    108                   analyse_over=1;
+    109                   Command_analy(command_str);
+    110                   LCD_CLS();
+    111                   LCD_P8x16Str(0,0,"C:");LCD_P8x16Str(20,0,command_str);
+    112                   for(i=0;i<10;i++)
+    113                     command_str[i]=0;
+    114                   
+    115                   //体重输入---
+    116                   if(DM_start==1) 
+    117                   {
+    118                     DM_start=0;
+    119                     if(constant_angle<=50)
+    120                       chainage=+50;
+    121                     else if(constant_angle>50&&constant_angle<=100)
+    122                       chainage=0;
+    123                     else if(constant_angle>100)
+    124                       chainage=-50;
+    125                     constant_angle=0;
+    126                     break;
+    127                   }
+    128                   //圆盘定方向转---
+    129                   if(motor_run_pos==1)
+    130                   {
+    131                     Car_Control_PWM(MOTOR_LEFT,1800);
+    132                     motor_run_pos=0;
+    133                   }
+    134                   if(motor_run_nag==1) 
+    135                   {
+    136                     Car_Control_PWM(MOTOR_LEFT,-1800);
+    137                     motor_run_nag=0;
+    138                   }
+    139                   if(motor_stop==1)
+    140                   {
+    141                     Car_Control_PWM(MOTOR_LEFT,0);
+    142                     motor_stop=0;
+    143                   }
+    144                 }
+    145                 //圆盘定方向、定角度转---
+    146                 if(run_constant_angle_pos==1)
+    147                 {
+    148                   Car_Control_PWM(MOTOR_LEFT,1800); 
+    149                   if(FTM_Count>(int)(61.5*constant_angle))
+    150                   {
+    151                     disable_irq(63);
+    152                     FTM_Count=0;
+    153                     Car_Control_PWM(MOTOR_LEFT,0);
+    154                     run_constant_angle_pos=0;
+    155                   }
+    156                 }
+    157                 if(run_constant_angle_nag==1)
+    158                 {
+    159                   Car_Control_PWM(MOTOR_LEFT,-1800);
+    160                   if(FTM_Count>=(int)(61.5*constant_angle))
+    161                   {
+    162                     disable_irq(62);
+    163                     FTM_Count=0;
+    164                     Car_Control_PWM(MOTOR_LEFT,0);
+    165                     run_constant_angle_nag=0;
+    166                   }
+    167                 }
+    168              }
+    169              //2-无刷直流-------------------
+    170              while(1)
+    171              {  
+    172                first=0;
+    173                //指令解析---
+    174                if(!analyse_over)
+    175                {
+    176                  analyse_over=1;
+    177                  Command_analy(command_str);
+    178                  //0-----
+    179                  LCD_CLS();
+    180                  LCD_P8x16Str(0,0,"C:");LCD_P8x16Str(20,0,command_str);
+    181                  for(i=0;i<10;i++)
+    182                    command_str[i]=0;
+    183                }
+    184                //归位---
+    185                if(StepOk==1)
+    186                {
+    187                  StepOk=0;
+   \                     ??main_3: (+1)
+   \   00000048   0x2000             MOVS     R0,#+0
+   \   0000004A   0x.... 0x....      LDR.W    R1,??DataTable1_5
+   \   0000004E   0x7008             STRB     R0,[R1, #+0]
+    188                  LCD_CLS();
+   \   00000050   0x.... 0x....      BL       LCD_CLS
+    189                  break;
+    190                }
+   \                     ??main_2: (+1)
+   \   00000054   0xE07A             B.N      ??main_4
+   \                     ??main_5: (+1)
+   \   00000056   0x.... 0x....      LDR.W    R0,??DataTable1_6
+   \   0000005A   0x7800             LDRB     R0,[R0, #+0]
+   \   0000005C   0x2801             CMP      R0,#+1
+   \   0000005E   0xD108             BNE.N    ??main_6
+   \   00000060   0xF44F 0x61E1      MOV      R1,#+1800
+   \   00000064   0x2000             MOVS     R0,#+0
+   \   00000066   0x.... 0x....      BL       Car_Control_PWM
+   \   0000006A   0x2000             MOVS     R0,#+0
+   \   0000006C   0x.... 0x....      LDR.W    R1,??DataTable1_6
+   \   00000070   0x7008             STRB     R0,[R1, #+0]
+   \                     ??main_6: (+1)
+   \   00000072   0x.... 0x....      LDR.W    R0,??DataTable1_7
+   \   00000076   0x7800             LDRB     R0,[R0, #+0]
+   \   00000078   0x2801             CMP      R0,#+1
+   \   0000007A   0xD108             BNE.N    ??main_7
+   \   0000007C   0x.... 0x....      LDR.W    R1,??DataTable1_8  ;; 0xfffff8f8
+   \   00000080   0x2000             MOVS     R0,#+0
+   \   00000082   0x.... 0x....      BL       Car_Control_PWM
+   \   00000086   0x2000             MOVS     R0,#+0
+   \   00000088   0x.... 0x....      LDR.W    R1,??DataTable1_7
+   \   0000008C   0x7008             STRB     R0,[R1, #+0]
+   \                     ??main_7: (+1)
+   \   0000008E   0x.... 0x....      LDR.W    R0,??DataTable1_9
+   \   00000092   0x7800             LDRB     R0,[R0, #+0]
+   \   00000094   0x2801             CMP      R0,#+1
+   \   00000096   0xD107             BNE.N    ??main_8
+   \   00000098   0x2100             MOVS     R1,#+0
+   \   0000009A   0x2000             MOVS     R0,#+0
+   \   0000009C   0x.... 0x....      BL       Car_Control_PWM
+   \   000000A0   0x2000             MOVS     R0,#+0
+   \   000000A2   0x.... 0x....      LDR.W    R1,??DataTable1_9
+   \   000000A6   0x7008             STRB     R0,[R1, #+0]
+   \                     ??main_8: (+1)
+   \   000000A8   0x.... 0x....      LDR.W    R0,??DataTable1_10
+   \   000000AC   0x7800             LDRB     R0,[R0, #+0]
+   \   000000AE   0x2801             CMP      R0,#+1
+   \   000000B0   0xD123             BNE.N    ??main_9
+   \   000000B2   0xF44F 0x61E1      MOV      R1,#+1800
+   \   000000B6   0x2000             MOVS     R0,#+0
+   \   000000B8   0x.... 0x....      BL       Car_Control_PWM
+   \   000000BC   0x.... 0x....      LDR.W    R0,??DataTable1_11
+   \   000000C0   0xE9D0 0x2300      LDRD     R2,R3,[R0, #+0]
+   \   000000C4   0x2000             MOVS     R0,#+0
+   \   000000C6   0x.... 0x....      LDR.W    R1,??DataTable1_12  ;; 0x404ec000
+   \   000000CA   0x.... 0x....      BL       __aeabi_dmul
+   \   000000CE   0x.... 0x....      BL       __aeabi_d2iz
+   \   000000D2   0x.... 0x....      LDR.W    R1,??DataTable1_13
+   \   000000D6   0x6809             LDR      R1,[R1, #+0]
+   \   000000D8   0x4288             CMP      R0,R1
+   \   000000DA   0xDA0E             BGE.N    ??main_9
+   \   000000DC   0x203F             MOVS     R0,#+63
+   \   000000DE   0x.... 0x....      BL       disable_irq
+   \   000000E2   0x2000             MOVS     R0,#+0
+   \   000000E4   0x.... 0x....      LDR.W    R1,??DataTable1_13
+   \   000000E8   0x6008             STR      R0,[R1, #+0]
+   \   000000EA   0x2100             MOVS     R1,#+0
+   \   000000EC   0x2000             MOVS     R0,#+0
+   \   000000EE   0x.... 0x....      BL       Car_Control_PWM
+   \   000000F2   0x2000             MOVS     R0,#+0
+   \   000000F4   0x.... 0x....      LDR.W    R1,??DataTable1_10
+   \   000000F8   0x7008             STRB     R0,[R1, #+0]
+   \                     ??main_9: (+1)
+   \   000000FA   0x.... 0x....      LDR.W    R0,??DataTable1_14
+   \   000000FE   0x7800             LDRB     R0,[R0, #+0]
+   \   00000100   0x2801             CMP      R0,#+1
+   \   00000102   0xD123             BNE.N    ??main_4
+   \   00000104   0x.... 0x....      LDR.W    R1,??DataTable1_8  ;; 0xfffff8f8
+   \   00000108   0x2000             MOVS     R0,#+0
+   \   0000010A   0x.... 0x....      BL       Car_Control_PWM
+   \   0000010E   0x.... 0x....      LDR.W    R0,??DataTable1_11
+   \   00000112   0xE9D0 0x2300      LDRD     R2,R3,[R0, #+0]
+   \   00000116   0x2000             MOVS     R0,#+0
+   \   00000118   0x.... 0x....      LDR.W    R1,??DataTable1_12  ;; 0x404ec000
+   \   0000011C   0x.... 0x....      BL       __aeabi_dmul
+   \   00000120   0x.... 0x....      BL       __aeabi_d2iz
+   \   00000124   0x.... 0x....      LDR.W    R1,??DataTable1_13
+   \   00000128   0x6809             LDR      R1,[R1, #+0]
+   \   0000012A   0x4281             CMP      R1,R0
+   \   0000012C   0xDB0E             BLT.N    ??main_4
+   \   0000012E   0x203E             MOVS     R0,#+62
+   \   00000130   0x.... 0x....      BL       disable_irq
+   \   00000134   0x2000             MOVS     R0,#+0
+   \   00000136   0x.... 0x....      LDR.W    R1,??DataTable1_13
+   \   0000013A   0x6008             STR      R0,[R1, #+0]
+   \   0000013C   0x2100             MOVS     R1,#+0
+   \   0000013E   0x2000             MOVS     R0,#+0
+   \   00000140   0x.... 0x....      BL       Car_Control_PWM
+   \   00000144   0x2000             MOVS     R0,#+0
+   \   00000146   0x.... 0x....      LDR.W    R1,??DataTable1_14
+   \   0000014A   0x7008             STRB     R0,[R1, #+0]
+   \                     ??main_4: (+1)
+   \   0000014C   0x2001             MOVS     R0,#+1
+   \   0000014E   0x.... 0x....      LDR.W    R1,??DataTable2
+   \   00000152   0x7008             STRB     R0,[R1, #+0]
+   \   00000154   0x.... 0x....      LDR.W    R0,??DataTable1_15
+   \   00000158   0x7800             LDRB     R0,[R0, #+0]
+   \   0000015A   0x2800             CMP      R0,#+0
+   \   0000015C   0xD13D             BNE.N    ??main_10
+   \   0000015E   0xA2DC             ADR.N    R2,??main_11     ;; 0x42, 0x3A, 0x00, 0x00
+   \   00000160   0x2102             MOVS     R1,#+2
+   \   00000162   0x2000             MOVS     R0,#+0
+   \   00000164   0x.... 0x....      BL       LCD_P8x16Str
+   \   00000168   0x.... 0x....      LDR.W    R0,??DataTable1_16
+   \   0000016C   0x7802             LDRB     R2,[R0, #+0]
+   \   0000016E   0x2102             MOVS     R1,#+2
+   \   00000170   0x201E             MOVS     R0,#+30
+   \   00000172   0x.... 0x....      BL       LCD_P8x16_number
+   \   00000176   0xA2D7             ADR.N    R2,??main_11+0x4  ;; 0x45, 0x3A, 0x00, 0x00
+   \   00000178   0x2102             MOVS     R1,#+2
+   \   0000017A   0x203C             MOVS     R0,#+60
+   \   0000017C   0x.... 0x....      BL       LCD_P8x16Str
+   \   00000180   0x.... 0x....      LDR.W    R0,??DataTable2_1
+   \   00000184   0x7802             LDRB     R2,[R0, #+0]
+   \   00000186   0x2102             MOVS     R1,#+2
+   \   00000188   0x2064             MOVS     R0,#+100
+   \   0000018A   0x.... 0x....      BL       LCD_P8x16_number
+   \   0000018E   0x.... 0x....      LDR.W    R2,??DataTable2_2
+   \   00000192   0x2104             MOVS     R1,#+4
+   \   00000194   0x2000             MOVS     R0,#+0
+   \   00000196   0x.... 0x....      BL       LCD_P8x16Str
+   \   0000019A   0x.... 0x....      LDR.W    R0,??DataTable1_5
+   \   0000019E   0x7802             LDRB     R2,[R0, #+0]
+   \   000001A0   0x2104             MOVS     R1,#+4
+   \   000001A2   0x201E             MOVS     R0,#+30
+   \   000001A4   0x.... 0x....      BL       LCD_P8x16_number
+   \   000001A8   0x.... 0x....      LDR.W    R2,??DataTable2_3
+   \   000001AC   0x2104             MOVS     R1,#+4
+   \   000001AE   0x203C             MOVS     R0,#+60
+   \   000001B0   0x.... 0x....      BL       LCD_P8x16Str
+   \   000001B4   0x.... 0x....      LDR.W    R0,??DataTable2
+   \   000001B8   0x7802             LDRB     R2,[R0, #+0]
+   \   000001BA   0x2104             MOVS     R1,#+4
+   \   000001BC   0x2064             MOVS     R0,#+100
+   \   000001BE   0x.... 0x....      BL       LCD_P8x16_number
+   \   000001C2   0xA2E2             ADR.N    R2,??main_12     ;; "BV:"
+   \   000001C4   0x2106             MOVS     R1,#+6
+   \   000001C6   0x203C             MOVS     R0,#+60
+   \   000001C8   0x.... 0x....      BL       LCD_P8x16Str
+   \   000001CC   0x.... 0x....      LDR.W    R0,??DataTable1_17
+   \   000001D0   0x6802             LDR      R2,[R0, #+0]
+   \   000001D2   0x2106             MOVS     R1,#+6
+   \   000001D4   0x2055             MOVS     R0,#+85
+   \   000001D6   0x.... 0x....      BL       LCD_P8x16_number_4
+   \                     ??main_10: (+1)
+   \   000001DA   0x.... 0x....      LDR.W    R0,??DataTable1_18
+   \   000001DE   0x7800             LDRB     R0,[R0, #+0]
+   \   000001E0   0x2800             CMP      R0,#+0
+   \   000001E2   0xF47F 0xAF61      BNE.W    ??main_8
+   \   000001E6   0x2001             MOVS     R0,#+1
+   \   000001E8   0x.... 0x....      LDR.W    R1,??DataTable1_18
+   \   000001EC   0x7008             STRB     R0,[R1, #+0]
+   \   000001EE   0x.... 0x....      LDR.W    R0,??DataTable2_4
+   \   000001F2   0x.... 0x....      BL       Command_analy
+   \   000001F6   0x.... 0x....      BL       LCD_CLS
+   \   000001FA   0xA2D5             ADR.N    R2,??main_12+0x4  ;; 0x43, 0x3A, 0x00, 0x00
+   \   000001FC   0x2100             MOVS     R1,#+0
+   \   000001FE   0x2000             MOVS     R0,#+0
+   \   00000200   0x.... 0x....      BL       LCD_P8x16Str
+   \   00000204   0x.... 0x....      LDR.W    R2,??DataTable2_4
+   \   00000208   0x2100             MOVS     R1,#+0
+   \   0000020A   0x2014             MOVS     R0,#+20
+   \   0000020C   0x.... 0x....      BL       LCD_P8x16Str
+   \   00000210   0x2400             MOVS     R4,#+0
+   \   00000212   0xE005             B.N      ??main_13
+   \                     ??main_14: (+1)
+   \   00000214   0x2000             MOVS     R0,#+0
+   \   00000216   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   00000218   0x.... 0x....      LDR.W    R1,??DataTable2_4
+   \   0000021C   0x5460             STRB     R0,[R4, R1]
+   \   0000021E   0x1C64             ADDS     R4,R4,#+1
+   \                     ??main_13: (+1)
+   \   00000220   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   00000222   0x2C0A             CMP      R4,#+10
+   \   00000224   0xDBF6             BLT.N    ??main_14
+   \   00000226   0x.... 0x....      LDR.W    R0,??DataTable2_7
+   \   0000022A   0x7800             LDRB     R0,[R0, #+0]
+   \   0000022C   0x2801             CMP      R0,#+1
+   \   0000022E   0xF47F 0xAF12      BNE.W    ??main_5
+   \   00000232   0x2000             MOVS     R0,#+0
+   \   00000234   0x.... 0x....      LDR.W    R1,??DataTable2_7
+   \   00000238   0x7008             STRB     R0,[R1, #+0]
+   \   0000023A   0x.... 0x....      LDR.W    R2,??DataTable1_11
+   \   0000023E   0xE9D2 0x0100      LDRD     R0,R1,[R2, #+0]
+   \   00000242   0x2201             MOVS     R2,#+1
+   \   00000244   0x.... 0x....      LDR.W    R3,??DataTable2_9  ;; 0x40490000
+   \   00000248   0x.... 0x....      BL       __aeabi_cdcmple
+   \   0000024C   0xD204             BCS.N    ??main_15
+   \   0000024E   0x2032             MOVS     R0,#+50
+   \   00000250   0x.... 0x....      LDR.W    R1,??DataTable2_10
+   \   00000254   0x8008             STRH     R0,[R1, #+0]
+   \   00000256   0xE027             B.N      ??main_16
+   \                     ??main_15: (+1)
+   \   00000258   0x.... 0x....      LDR.W    R2,??DataTable1_11
+   \   0000025C   0xE9D2 0x0100      LDRD     R0,R1,[R2, #+0]
+   \   00000260   0x2201             MOVS     R2,#+1
+   \   00000262   0x.... 0x....      LDR.W    R3,??DataTable2_9  ;; 0x40490000
+   \   00000266   0x.... 0x....      BL       __aeabi_cdrcmple
+   \   0000026A   0xD80E             BHI.N    ??main_17
+   \   0000026C   0x.... 0x....      LDR.W    R2,??DataTable1_11
+   \   00000270   0xE9D2 0x0100      LDRD     R0,R1,[R2, #+0]
+   \   00000274   0x2201             MOVS     R2,#+1
+   \   00000276   0x.... 0x....      LDR.W    R3,??DataTable2_11  ;; 0x40590000
+   \   0000027A   0x.... 0x....      BL       __aeabi_cdcmple
+   \   0000027E   0xD204             BCS.N    ??main_17
+   \   00000280   0x2000             MOVS     R0,#+0
+   \   00000282   0x.... 0x....      LDR.W    R1,??DataTable2_10
+   \   00000286   0x8008             STRH     R0,[R1, #+0]
+   \   00000288   0xE00E             B.N      ??main_16
+   \                     ??main_17: (+1)
+   \   0000028A   0x.... 0x....      LDR.W    R2,??DataTable1_11
+   \   0000028E   0xE9D2 0x0100      LDRD     R0,R1,[R2, #+0]
+   \   00000292   0x2201             MOVS     R2,#+1
+   \   00000294   0x.... 0x....      LDR.W    R3,??DataTable2_11  ;; 0x40590000
+   \   00000298   0x.... 0x....      BL       __aeabi_cdrcmple
+   \   0000029C   0xD804             BHI.N    ??main_16
+   \   0000029E   0xF07F 0x0031      MVNS     R0,#+49
+   \   000002A2   0x.... 0x....      LDR.W    R1,??DataTable2_10
+   \   000002A6   0x8008             STRH     R0,[R1, #+0]
+   \                     ??main_16: (+1)
+   \   000002A8   0x2000             MOVS     R0,#+0
+   \   000002AA   0x2100             MOVS     R1,#+0
+   \   000002AC   0x.... 0x....      LDR.W    R2,??DataTable1_11
+   \   000002B0   0xE9C2 0x0100      STRD     R0,R1,[R2, #+0]
+   \   000002B4   0xE00C             B.N      ??main_18
+    191                //加速度---  
+    192                if(NRF24L01_RxPacket(tmp_buf)==0)
+    193                {
+    194                  UpBuf1_pre=UpBuf1;
+    195                  UpBuf1=tmp_buf[0];
+    196                  //上位机数据---
+    197                  //1-----
+    198          //        Up[UpCnt]=tmp_buf[2];
+    199          //        if(Up[UpCnt]>=128)
+    200          //          Up[UpCnt]=Up[UpCnt]-256;
+    201          //        UpCnt++;
+    202          //        if(UpCnt>=3)
+    203          //        {
+    204          //          UpCnt=0;
+    205          //          UpBuf=(Up[0]+Up[1]+Up[2])/3;
+    206          //          if(UpBuf<=0)
+    207          //            UpBuf=UpBuf+256;
+    208          //          UpBuf1=UpBuf&0x00ff;
+    209          //        }
+    210          
+    211                  //下位机数据---
+    212                  off_y[avr_count]=(tmp_buf[0]<<8)|tmp_buf[1];    
+    213                  off_y[avr_count]>>=4;       
+    214                  if(off_y[avr_count]>=2048) 
+    215                    off_y[avr_count]=off_y[avr_count]-4096;
+    216          
+    217                  if(avr_count==0)
+    218                  {
+    219                    YMin=off_y[0];
+    220                    YMax=off_y[0];
+    221                  }
+    222                  if(off_y[avr_count]<=YMin)
+    223                    YMin=off_y[avr_count];
+    224                  if(off_y[avr_count]>=YMax)
+    225                    YMax=off_y[avr_count];
+    226                  
+    227                  avr_count++;
+    228                  if(avr_count==5)
+    229                  {
+    230                    avr_count=0;
+    231                    for(i=0;i<5;i++)
+    232                      OFF_Y=OFF_Y+off_y[i];
+    233                    YBack=(OFF_Y-YMax-YMin)/3;
+    234                    OFF_Y=0;
+    235                  }
+    236                  //6-----
+    237                  if(YBack>=0)
+    238                  {
+    239                    LCD_P8x16Str(60,6,"x+");
+    240                    LCD_P8x16_number_5(80,6,YBack);
+    241                  }
+    242                  else
+    243                  {
+    244                    LCD_P8x16Str(60,6,"x-");
+    245                    LCD_P8x16_number_5(80,6,-YBack);
+    246                  }
+    247                }
+    248                //显示---
+    249                if(g_n1msEventCount==0)
+    250                {   
+    251                  //上位机-----
+    252                  if(BufBegin==1)
+    253                  {
+    254                    if(g_nMotorPulseSigma>=0&&g_nMotorPulseSigma<2160)
+    255                    {
+    256          //            if(UpBuf1>=128)
+    257          //              UpBuf1=UpBuf1_pre;//UpBuf1=UpBuf1+UpBuf1/2;
+    258                    }
+    259                    if(g_nMotorPulseSigma>=2160&&g_nMotorPulseSigma<5040)
+    260                    {
+    261                      //UpBuf1=255;
+    262                    }
+    263                    else if(g_nMotorPulseSigma>=5040)
+    264                    {
+    265          //            if(UpBuf1<128)
+    266          //              UpBuf1=UpBuf1_pre;//UpBuf1=UpBuf1-UpBuf1/2;
+    267                    }
+    268                    uart_send1(UART3,UpBuf1);
+    269                  }
+    270                  //0-----
+    271                  if(PwmDuty<0) 
+    272                  {
+    273                    LCD_P8x16Str(60,0,"D:-");
+    274                    LCD_P8x16_number_4(85,0,-PwmDuty);
+    275                  }
+    276                  else
+    277                  {
+    278                    LCD_P8x16Str(60,0,"D:+");
+    279                    LCD_P8x16_number_4(85,0,PwmDuty);
+    280                  }
+    281                  //2-----
+    282                  LCD_P8x16Str(0,2,"B:");LCD_P8x16_number(30,2,PB1_flag);
+    283                  LCD_P8x16Str(60,2,"E:");LCD_P8x16_number(90,2,PE24_flag);
+    284                  //4-----
+    285                  LCD_P8x16Str(0,4,"Sok:");LCD_P8x16_number(30,4,StepOk);
+    286                  LCD_P8x16Str(60,4,"fir:");LCD_P8x16_number(90,4,first);
+    287                  //6-----
+    288                  if(g_nMotorPulseSigma>0)
+    289                  {
+    290                    LCD_P8x16Str(0,6,"P:+");
+   \                     ??main_19: (+1)
+   \   000002B6   0x....             ADR.N    R2,??DataTable0  ;; "P:+"
+   \   000002B8   0x2106             MOVS     R1,#+6
+   \   000002BA   0x2000             MOVS     R0,#+0
+   \   000002BC   0x.... 0x....      BL       LCD_P8x16Str
+    291                    LCD_P8x16_number_4(25,6,g_nMotorPulseSigma);
+   \   000002C0   0x.... 0x....      LDR.W    R0,??DataTable2_12
+   \   000002C4   0xF9B0 0x2000      LDRSH    R2,[R0, #+0]
+   \   000002C8   0x2106             MOVS     R1,#+6
+   \   000002CA   0x2019             MOVS     R0,#+25
+   \   000002CC   0x.... 0x....      BL       LCD_P8x16_number_4
+    292                  }
+   \                     ??main_18: (+1)
+   \   000002D0   0x2000             MOVS     R0,#+0
+   \   000002D2   0x.... 0x....      LDR.W    R1,??DataTable2
+   \   000002D6   0x7008             STRB     R0,[R1, #+0]
+   \   000002D8   0x.... 0x....      LDR.W    R0,??DataTable1_18
+   \   000002DC   0x7800             LDRB     R0,[R0, #+0]
+   \   000002DE   0x2800             CMP      R0,#+0
+   \   000002E0   0xD11F             BNE.N    ??main_20
+   \   000002E2   0x2001             MOVS     R0,#+1
+   \   000002E4   0x.... 0x....      LDR.W    R1,??DataTable1_18
+   \   000002E8   0x7008             STRB     R0,[R1, #+0]
+   \   000002EA   0x.... 0x....      LDR.W    R0,??DataTable2_4
+   \   000002EE   0x.... 0x....      BL       Command_analy
+   \   000002F2   0x.... 0x....      BL       LCD_CLS
+   \   000002F6   0xA296             ADR.N    R2,??main_12+0x4  ;; 0x43, 0x3A, 0x00, 0x00
+   \   000002F8   0x2100             MOVS     R1,#+0
+   \   000002FA   0x2000             MOVS     R0,#+0
+   \   000002FC   0x.... 0x....      BL       LCD_P8x16Str
+   \   00000300   0x.... 0x....      LDR.W    R2,??DataTable2_4
+   \   00000304   0x2100             MOVS     R1,#+0
+   \   00000306   0x2014             MOVS     R0,#+20
+   \   00000308   0x.... 0x....      BL       LCD_P8x16Str
+   \   0000030C   0x2400             MOVS     R4,#+0
+   \   0000030E   0xE005             B.N      ??main_21
+   \                     ??main_22: (+1)
+   \   00000310   0x2000             MOVS     R0,#+0
+   \   00000312   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   00000314   0x.... 0x....      LDR.W    R1,??DataTable2_4
+   \   00000318   0x5460             STRB     R0,[R4, R1]
+   \   0000031A   0x1C64             ADDS     R4,R4,#+1
+   \                     ??main_21: (+1)
+   \   0000031C   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   0000031E   0x2C0A             CMP      R4,#+10
+   \   00000320   0xDBF6             BLT.N    ??main_22
+   \                     ??main_20: (+1)
+   \   00000322   0x.... 0x....      LDR.W    R0,??DataTable1_5
+   \   00000326   0x7800             LDRB     R0,[R0, #+0]
+   \   00000328   0x2801             CMP      R0,#+1
+   \   0000032A   0xF43F 0xAE8D      BEQ.W    ??main_3
+   \   0000032E   0x.... 0x....      LDR.W    R0,??DataTable2_13
+   \   00000332   0x.... 0x....      BL       NRF24L01_RxPacket
+   \   00000336   0x2800             CMP      R0,#+0
+   \   00000338   0xF040 0x80DB      BNE.W    ??main_23
+   \   0000033C   0x.... 0x....      LDR.W    R0,??DataTable2_14
+   \   00000340   0x7800             LDRB     R0,[R0, #+0]
+   \   00000342   0x.... 0x....      LDR.W    R1,??DataTable2_15
+   \   00000346   0x7008             STRB     R0,[R1, #+0]
+   \   00000348   0x.... 0x....      LDR.W    R0,??DataTable2_13
+   \   0000034C   0x7800             LDRB     R0,[R0, #+0]
+   \   0000034E   0x.... 0x....      LDR.W    R1,??DataTable2_14
+   \   00000352   0x7008             STRB     R0,[R1, #+0]
+   \   00000354   0x.... 0x....      LDR.W    R0,??DataTable2_13
+   \   00000358   0x7800             LDRB     R0,[R0, #+0]
+   \   0000035A   0x.... 0x....      LDR.W    R1,??DataTable2_13
+   \   0000035E   0x7849             LDRB     R1,[R1, #+1]
+   \   00000360   0xEA51 0x2000      ORRS     R0,R1,R0, LSL #+8
+   \   00000364   0x.... 0x....      LDR.W    R1,??DataTable2_16
+   \   00000368   0x7809             LDRB     R1,[R1, #+0]
+   \   0000036A   0x.... 0x....      LDR.W    R2,??DataTable2_17
+   \   0000036E   0xF842 0x0021      STR      R0,[R2, R1, LSL #+2]
+   \   00000372   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   00000376   0x7800             LDRB     R0,[R0, #+0]
+   \   00000378   0x.... 0x....      LDR.W    R1,??DataTable2_17
+   \   0000037C   0xF851 0x0020      LDR      R0,[R1, R0, LSL #+2]
+   \   00000380   0x1100             ASRS     R0,R0,#+4
+   \   00000382   0x.... 0x....      LDR.W    R1,??DataTable2_16
+   \   00000386   0x7809             LDRB     R1,[R1, #+0]
+   \   00000388   0x.... 0x....      LDR.W    R2,??DataTable2_17
+   \   0000038C   0xF842 0x0021      STR      R0,[R2, R1, LSL #+2]
+   \   00000390   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   00000394   0x7800             LDRB     R0,[R0, #+0]
+   \   00000396   0x.... 0x....      LDR.W    R1,??DataTable2_17
+   \   0000039A   0xF851 0x0020      LDR      R0,[R1, R0, LSL #+2]
+   \   0000039E   0xF5B0 0x6F00      CMP      R0,#+2048
+   \   000003A2   0xDB0F             BLT.N    ??main_24
+   \   000003A4   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   000003A8   0x7800             LDRB     R0,[R0, #+0]
+   \   000003AA   0x.... 0x....      LDR.W    R1,??DataTable2_17
+   \   000003AE   0xF851 0x0020      LDR      R0,[R1, R0, LSL #+2]
+   \   000003B2   0xF5B0 0x5080      SUBS     R0,R0,#+4096
+   \   000003B6   0x.... 0x....      LDR.W    R1,??DataTable2_16
+   \   000003BA   0x7809             LDRB     R1,[R1, #+0]
+   \   000003BC   0x.... 0x....      LDR.W    R2,??DataTable2_17
+   \   000003C0   0xF842 0x0021      STR      R0,[R2, R1, LSL #+2]
+   \                     ??main_24: (+1)
+   \   000003C4   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   000003C8   0x7800             LDRB     R0,[R0, #+0]
+   \   000003CA   0x2800             CMP      R0,#+0
+   \   000003CC   0xD10B             BNE.N    ??main_25
+   \   000003CE   0x.... 0x....      LDR.W    R0,??DataTable2_17
+   \   000003D2   0x6800             LDR      R0,[R0, #+0]
+   \   000003D4   0x.... 0x....      LDR.W    R1,??DataTable2_18
+   \   000003D8   0x6008             STR      R0,[R1, #+0]
+   \   000003DA   0x.... 0x....      LDR.W    R0,??DataTable2_17
+   \   000003DE   0x6800             LDR      R0,[R0, #+0]
+   \   000003E0   0x.... 0x....      LDR.W    R1,??DataTable2_19
+   \   000003E4   0x6008             STR      R0,[R1, #+0]
+   \                     ??main_25: (+1)
+   \   000003E6   0x.... 0x....      LDR.W    R0,??DataTable2_18
+   \   000003EA   0x6800             LDR      R0,[R0, #+0]
+   \   000003EC   0x.... 0x....      LDR.W    R1,??DataTable2_16
+   \   000003F0   0x7809             LDRB     R1,[R1, #+0]
+   \   000003F2   0x.... 0x....      LDR.W    R2,??DataTable2_17
+   \   000003F6   0xF852 0x1021      LDR      R1,[R2, R1, LSL #+2]
+   \   000003FA   0x4288             CMP      R0,R1
+   \   000003FC   0xDB09             BLT.N    ??main_26
+   \   000003FE   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   00000402   0x7800             LDRB     R0,[R0, #+0]
+   \   00000404   0x.... 0x....      LDR.W    R1,??DataTable2_17
+   \   00000408   0xF851 0x0020      LDR      R0,[R1, R0, LSL #+2]
+   \   0000040C   0x.... 0x....      LDR.W    R1,??DataTable2_18
+   \   00000410   0x6008             STR      R0,[R1, #+0]
+   \                     ??main_26: (+1)
+   \   00000412   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   00000416   0x7800             LDRB     R0,[R0, #+0]
+   \   00000418   0x.... 0x....      LDR.W    R1,??DataTable2_17
+   \   0000041C   0xF851 0x0020      LDR      R0,[R1, R0, LSL #+2]
+   \   00000420   0x.... 0x....      LDR.W    R1,??DataTable2_19
+   \   00000424   0x6809             LDR      R1,[R1, #+0]
+   \   00000426   0x4288             CMP      R0,R1
+   \   00000428   0xDB09             BLT.N    ??main_27
+   \   0000042A   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   0000042E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000430   0x.... 0x....      LDR.W    R1,??DataTable2_17
+   \   00000434   0xF851 0x0020      LDR      R0,[R1, R0, LSL #+2]
+   \   00000438   0x.... 0x....      LDR.W    R1,??DataTable2_19
+   \   0000043C   0x6008             STR      R0,[R1, #+0]
+   \                     ??main_27: (+1)
+   \   0000043E   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   00000442   0x7800             LDRB     R0,[R0, #+0]
+   \   00000444   0x1C40             ADDS     R0,R0,#+1
+   \   00000446   0x.... 0x....      LDR.W    R1,??DataTable2_16
+   \   0000044A   0x7008             STRB     R0,[R1, #+0]
+   \   0000044C   0x.... 0x....      LDR.W    R0,??DataTable2_16
+   \   00000450   0x7800             LDRB     R0,[R0, #+0]
+   \   00000452   0x2805             CMP      R0,#+5
+   \   00000454   0xD12A             BNE.N    ??main_28
+   \   00000456   0x2000             MOVS     R0,#+0
+   \   00000458   0x.... 0x....      LDR.W    R1,??DataTable2_16
+   \   0000045C   0x7008             STRB     R0,[R1, #+0]
+   \   0000045E   0x2400             MOVS     R4,#+0
+   \   00000460   0xE00C             B.N      ??main_29
+   \                     ??main_30: (+1)
+   \   00000462   0x.... 0x....      LDR.W    R0,??DataTable2_20
+   \   00000466   0x6800             LDR      R0,[R0, #+0]
+   \   00000468   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   0000046A   0x.... 0x....      LDR.W    R1,??DataTable2_17
+   \   0000046E   0xF851 0x1024      LDR      R1,[R1, R4, LSL #+2]
+   \   00000472   0x1808             ADDS     R0,R1,R0
+   \   00000474   0x.... 0x....      LDR.W    R1,??DataTable2_20
+   \   00000478   0x6008             STR      R0,[R1, #+0]
+   \   0000047A   0x1C64             ADDS     R4,R4,#+1
+   \                     ??main_29: (+1)
+   \   0000047C   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   0000047E   0x2C05             CMP      R4,#+5
+   \   00000480   0xDBEF             BLT.N    ??main_30
+   \   00000482   0x.... 0x....      LDR.W    R0,??DataTable2_20
+   \   00000486   0x6800             LDR      R0,[R0, #+0]
+   \   00000488   0x.... 0x....      LDR.W    R1,??DataTable2_19
+   \   0000048C   0x6809             LDR      R1,[R1, #+0]
+   \   0000048E   0x1A40             SUBS     R0,R0,R1
+   \   00000490   0x.... 0x....      LDR.W    R1,??DataTable2_18
+   \   00000494   0x6809             LDR      R1,[R1, #+0]
+   \   00000496   0x1A40             SUBS     R0,R0,R1
+   \   00000498   0x2103             MOVS     R1,#+3
+   \   0000049A   0xFB90 0xF0F1      SDIV     R0,R0,R1
+   \   0000049E   0x.... 0x....      LDR.W    R1,??DataTable2_21
+   \   000004A2   0x6008             STR      R0,[R1, #+0]
+   \   000004A4   0x2000             MOVS     R0,#+0
+   \   000004A6   0x.... 0x....      LDR.W    R1,??DataTable2_20
+   \   000004AA   0x6008             STR      R0,[R1, #+0]
+   \                     ??main_28: (+1)
+   \   000004AC   0x.... 0x....      LDR.W    R0,??DataTable2_21
+   \   000004B0   0x6800             LDR      R0,[R0, #+0]
+   \   000004B2   0x2800             CMP      R0,#+0
+   \   000004B4   0xD410             BMI.N    ??main_31
+   \   000004B6   0x....             ADR.N    R2,??DataTable0_1  ;; 0x78, 0x2B, 0x00, 0x00
+   \   000004B8   0x2106             MOVS     R1,#+6
+   \   000004BA   0x203C             MOVS     R0,#+60
+   \   000004BC   0x.... 0x....      BL       LCD_P8x16Str
+   \   000004C0   0x.... 0x....      LDR.W    R0,??DataTable2_21
+   \   000004C4   0x6802             LDR      R2,[R0, #+0]
+   \   000004C6   0x2106             MOVS     R1,#+6
+   \   000004C8   0x2050             MOVS     R0,#+80
+   \   000004CA   0x.... 0x....      BL       LCD_P8x16_number_5
+   \   000004CE   0xE010             B.N      ??main_23
+   \                     ??main_11:
+   \   000004D0   0x42 0x3A          DC8      0x42, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+   \   000004D4   0x45 0x3A          DC8      0x45, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+   \                     ??main_31: (+1)
+   \   000004D8   0x....             ADR.N    R2,??DataTable0_2  ;; 0x78, 0x2D, 0x00, 0x00
+   \   000004DA   0x2106             MOVS     R1,#+6
+   \   000004DC   0x203C             MOVS     R0,#+60
+   \   000004DE   0x.... 0x....      BL       LCD_P8x16Str
+   \   000004E2   0x.... 0x....      LDR.W    R0,??DataTable2_21
+   \   000004E6   0x6800             LDR      R0,[R0, #+0]
+   \   000004E8   0x4242             RSBS     R2,R0,#+0
+   \   000004EA   0x2106             MOVS     R1,#+6
+   \   000004EC   0x2050             MOVS     R0,#+80
+   \   000004EE   0x.... 0x....      BL       LCD_P8x16_number_5
+   \                     ??main_23: (+1)
+   \   000004F2   0x....             LDR.N    R0,??DataTable1_15
+   \   000004F4   0x7800             LDRB     R0,[R0, #+0]
+   \   000004F6   0x2800             CMP      R0,#+0
+   \   000004F8   0xF47F 0xAEEA      BNE.W    ??main_18
+   \   000004FC   0x.... 0x....      LDR.W    R0,??DataTable2_22
+   \   00000500   0x7800             LDRB     R0,[R0, #+0]
+   \   00000502   0x2801             CMP      R0,#+1
+   \   00000504   0xD10E             BNE.N    ??main_32
+   \   00000506   0x.... 0x....      LDR.W    R0,??DataTable2_12
+   \   0000050A   0xF9B0 0x0000      LDRSH    R0,[R0, #+0]
+   \   0000050E   0xF5B0 0x6007      SUBS     R0,R0,#+2160
+   \   00000512   0xF5B0 0x6F34      CMP      R0,#+2880
+   \                     ??main_33: (+1)
+   \   00000516   0x.... 0x....      LDR.W    R0,??DataTable2_14
+   \   0000051A   0x7801             LDRB     R1,[R0, #+0]
+   \   0000051C   0x.... 0x....      LDR.W    R0,??DataTable2_23  ;; 0x4006d000
+   \   00000520   0x.... 0x....      BL       uart_send1
+   \                     ??main_32: (+1)
+   \   00000524   0x.... 0x....      LDR.W    R0,??DataTable2_24
+   \   00000528   0x6800             LDR      R0,[R0, #+0]
+   \   0000052A   0x2800             CMP      R0,#+0
+   \   0000052C   0xD512             BPL.N    ??main_34
+   \   0000052E   0x....             ADR.N    R2,??DataTable0_3  ;; "D:-"
+   \   00000530   0x2100             MOVS     R1,#+0
+   \   00000532   0x203C             MOVS     R0,#+60
+   \   00000534   0x.... 0x....      BL       LCD_P8x16Str
+   \   00000538   0x.... 0x....      LDR.W    R0,??DataTable2_24
+   \   0000053C   0x6800             LDR      R0,[R0, #+0]
+   \   0000053E   0x4242             RSBS     R2,R0,#+0
+   \   00000540   0x2100             MOVS     R1,#+0
+   \   00000542   0x2055             MOVS     R0,#+85
+   \   00000544   0x.... 0x....      BL       LCD_P8x16_number_4
+   \   00000548   0xE010             B.N      ??main_35
+   \   0000054A   0xBF00             Nop      
+   \                     ??main_12:
+   \   0000054C   0x42 0x56          DC8      "BV:"
+   \              0x3A 0x00    
+   \   00000550   0x43 0x3A          DC8      0x43, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+   \                     ??main_34: (+1)
+   \   00000554   0x....             ADR.N    R2,??DataTable0_4  ;; "D:+"
+   \   00000556   0x2100             MOVS     R1,#+0
+   \   00000558   0x203C             MOVS     R0,#+60
+   \   0000055A   0x.... 0x....      BL       LCD_P8x16Str
+   \   0000055E   0x.... 0x....      LDR.W    R0,??DataTable2_24
+   \   00000562   0x6802             LDR      R2,[R0, #+0]
+   \   00000564   0x2100             MOVS     R1,#+0
+   \   00000566   0x2055             MOVS     R0,#+85
+   \   00000568   0x.... 0x....      BL       LCD_P8x16_number_4
+   \                     ??main_35: (+1)
+   \   0000056C   0x....             ADR.N    R2,??DataTable1  ;; 0x42, 0x3A, 0x00, 0x00
+   \   0000056E   0x2102             MOVS     R1,#+2
+   \   00000570   0x2000             MOVS     R0,#+0
+   \   00000572   0x.... 0x....      BL       LCD_P8x16Str
+   \   00000576   0x....             LDR.N    R0,??DataTable1_16
+   \   00000578   0x7802             LDRB     R2,[R0, #+0]
+   \   0000057A   0x2102             MOVS     R1,#+2
+   \   0000057C   0x201E             MOVS     R0,#+30
+   \   0000057E   0x.... 0x....      BL       LCD_P8x16_number
+   \   00000582   0x....             ADR.N    R2,??DataTable1_1  ;; 0x45, 0x3A, 0x00, 0x00
+   \   00000584   0x2102             MOVS     R1,#+2
+   \   00000586   0x203C             MOVS     R0,#+60
+   \   00000588   0x.... 0x....      BL       LCD_P8x16Str
+   \   0000058C   0x.... 0x....      LDR.W    R0,??DataTable2_1
+   \   00000590   0x7802             LDRB     R2,[R0, #+0]
+   \   00000592   0x2102             MOVS     R1,#+2
+   \   00000594   0x205A             MOVS     R0,#+90
+   \   00000596   0x.... 0x....      BL       LCD_P8x16_number
+   \   0000059A   0x.... 0x....      LDR.W    R2,??DataTable2_2
+   \   0000059E   0x2104             MOVS     R1,#+4
+   \   000005A0   0x2000             MOVS     R0,#+0
+   \   000005A2   0x.... 0x....      BL       LCD_P8x16Str
+   \   000005A6   0x....             LDR.N    R0,??DataTable1_5
+   \   000005A8   0x7802             LDRB     R2,[R0, #+0]
+   \   000005AA   0x2104             MOVS     R1,#+4
+   \   000005AC   0x201E             MOVS     R0,#+30
+   \   000005AE   0x.... 0x....      BL       LCD_P8x16_number
+   \   000005B2   0x.... 0x....      LDR.W    R2,??DataTable2_3
+   \   000005B6   0x2104             MOVS     R1,#+4
+   \   000005B8   0x203C             MOVS     R0,#+60
+   \   000005BA   0x.... 0x....      BL       LCD_P8x16Str
+   \   000005BE   0x.... 0x....      LDR.W    R0,??DataTable2
+   \   000005C2   0x7802             LDRB     R2,[R0, #+0]
+   \   000005C4   0x2104             MOVS     R1,#+4
+   \   000005C6   0x205A             MOVS     R0,#+90
+   \   000005C8   0x.... 0x....      BL       LCD_P8x16_number
+   \   000005CC   0x.... 0x....      LDR.W    R0,??DataTable2_12
+   \   000005D0   0xF9B0 0x0000      LDRSH    R0,[R0, #+0]
+   \   000005D4   0x2801             CMP      R0,#+1
+   \   000005D6   0xF6BF 0xAE6E      BGE.W    ??main_19
+    293                  else
+    294                  {
+    295                    LCD_P8x16Str(0,6,"P:-");
+   \   000005DA   0x....             ADR.N    R2,??DataTable1_2  ;; "P:-"
+   \   000005DC   0x2106             MOVS     R1,#+6
+   \   000005DE   0x2000             MOVS     R0,#+0
+   \   000005E0   0x.... 0x....      BL       LCD_P8x16Str
+    296                    LCD_P8x16_number_4(25,6,-g_nMotorPulseSigma);
+   \   000005E4   0x.... 0x....      LDR.W    R0,??DataTable2_12
+   \   000005E8   0xF9B0 0x0000      LDRSH    R0,[R0, #+0]
+   \   000005EC   0x4242             RSBS     R2,R0,#+0
+   \   000005EE   0x2106             MOVS     R1,#+6
+   \   000005F0   0x2019             MOVS     R0,#+25
+   \   000005F2   0x.... 0x....      BL       LCD_P8x16_number_4
+   \   000005F6   0xE66B             B.N      ??main_18
+    297                  }
+    298                }
+    299              }
+    300            }
+    301          }
+    302          
+    303          //---------system_init()---------
+
+   \                                 In section .text, align 4, keep-with-next
+    304          void system_init()
+    305          {   
+   \                     system_init: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+    306            DisableInterrupts;
+   \   00000002   0xB672             CPSID i
+    307            
+    308            //制动初始化
+    309            gpio_init(PORTE , 25, 1, 0);
+   \   00000004   0x2300             MOVS     R3,#+0
+   \   00000006   0x2201             MOVS     R2,#+1
+   \   00000008   0x2119             MOVS     R1,#+25
+   \   0000000A   0x.... 0x....      LDR.W    R0,??DataTable2_25  ;; 0x400ff100
+   \   0000000E   0x.... 0x....      BL       gpio_init
+    310              
+    311            //电量检测初化
+    312            gpio_init(PORTE , 3, 1, 0);
+   \   00000012   0x2300             MOVS     R3,#+0
+   \   00000014   0x2201             MOVS     R2,#+1
+   \   00000016   0x2103             MOVS     R1,#+3
+   \   00000018   0x.... 0x....      LDR.W    R0,??DataTable2_25  ;; 0x400ff100
+   \   0000001C   0x.... 0x....      BL       gpio_init
+    313            hw_adc_init(1);
+   \   00000020   0x2001             MOVS     R0,#+1
+   \   00000022   0x.... 0x....      BL       hw_adc_init
+    314            //电量指示灯初始化
+    315            gpio_init(PORTB , 3, 1, 0);
+   \   00000026   0x2300             MOVS     R3,#+0
+   \   00000028   0x2201             MOVS     R2,#+1
+   \   0000002A   0x2103             MOVS     R1,#+3
+   \   0000002C   0x.... 0x....      LDR.W    R0,??DataTable2_26  ;; 0x400ff040
+   \   00000030   0x.... 0x....      BL       gpio_init
+    316            
+    317            //半桥驱动初始化
+    318            gpio_init(PORTC , 4, 1, 0);
+   \   00000034   0x2300             MOVS     R3,#+0
+   \   00000036   0x2201             MOVS     R2,#+1
+   \   00000038   0x2104             MOVS     R1,#+4
+   \   0000003A   0x.... 0x....      LDR.W    R0,??DataTable2_27  ;; 0x400ff080
+   \   0000003E   0x.... 0x....      BL       gpio_init
+    319            gpio_init(PORTC , 6, 1, 0);
+   \   00000042   0x2300             MOVS     R3,#+0
+   \   00000044   0x2201             MOVS     R2,#+1
+   \   00000046   0x2106             MOVS     R1,#+6
+   \   00000048   0x.... 0x....      LDR.W    R0,??DataTable2_27  ;; 0x400ff080
+   \   0000004C   0x.... 0x....      BL       gpio_init
+    320            
+    321            gpio_ctrl(PORTC,4,1);
+   \   00000050   0x2201             MOVS     R2,#+1
+   \   00000052   0x2104             MOVS     R1,#+4
+   \   00000054   0x.... 0x....      LDR.W    R0,??DataTable2_27  ;; 0x400ff080
+   \   00000058   0x.... 0x....      BL       gpio_ctrl
+    322            gpio_ctrl(PORTC,6,0);
+   \   0000005C   0x2200             MOVS     R2,#+0
+   \   0000005E   0x2106             MOVS     R1,#+6
+   \   00000060   0x.... 0x....      LDR.W    R0,??DataTable2_27  ;; 0x400ff080
+   \   00000064   0x.... 0x....      BL       gpio_ctrl
+    323            
+    324            //OLED液晶初始化
+    325            LCD_Init();
+   \   00000068   0x.... 0x....      BL       LCD_Init
+    326            
+    327            //NRF24L01
+    328            init_nrf24l01_io();
+   \   0000006C   0x.... 0x....      BL       init_nrf24l01_io
+    329            
+    330            //直流电机初始化 
+    331            FTM_PWM_Init(0,1000);//10khz                       //电机频率初始化 pwm频率为10kHz，周期0.1ms
+   \   00000070   0xF44F 0x717A      MOV      R1,#+1000
+   \   00000074   0x2000             MOVS     R0,#+0
+   \   00000076   0x.... 0x....      BL       FTM_PWM_Init
+    332            FTM_PWM_Open(0,2,0);
+   \   0000007A   0x2200             MOVS     R2,#+0
+   \   0000007C   0x2102             MOVS     R1,#+2
+   \   0000007E   0x2000             MOVS     R0,#+0
+   \   00000080   0x.... 0x....      BL       FTM_PWM_Open
+    333            PID_SetKpid(1.7,0.05,0.3);                   //速度PID初始化参数设置
+   \   00000084   0x.... 0x....      LDR.W    R2,??DataTable2_28  ;; 0x3e99999a
+   \   00000088   0x.... 0x....      LDR.W    R1,??DataTable2_29  ;; 0x3d4ccccd
+   \   0000008C   0x.... 0x....      LDR.W    R0,??DataTable2_30  ;; 0x3fd9999a
+   \   00000090   0x.... 0x....      BL       PID_SetKpid
+    334            PID_SetPoint(300);                          //初始加速度设定
+   \   00000094   0xF44F 0x7096      MOV      R0,#+300
+   \   00000098   0x.... 0x....      BL       PID_SetPoint
+    335            
+    336            //编码器初始化
+    337            FTM2_QUAD_Iint();
+   \   0000009C   0x.... 0x....      BL       FTM2_QUAD_Iint
+    338            
+    339            //步进电机初始化
+    340            /* Turn on all port clocks */
+    341            SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;
+   \   000000A0   0x.... 0x....      LDR.W    R0,??DataTable2_31  ;; 0x40048038
+   \   000000A4   0x6800             LDR      R0,[R0, #+0]
+   \   000000A6   0xF450 0x6080      ORRS     R0,R0,#0x400
+   \   000000AA   0x.... 0x....      LDR.W    R1,??DataTable2_31  ;; 0x40048038
+   \   000000AE   0x6008             STR      R0,[R1, #+0]
+    342            PORT_PCR_REG(PORTB_BASE_PTR,9)=(0|PORT_PCR_MUX(1))|PORT_PCR_PE_MASK|PORT_PCR_PS_MASK;//DIR0 PB9
+   \   000000B0   0xF240 0x1003      MOVW     R0,#+259
+   \   000000B4   0x.... 0x....      LDR.W    R1,??DataTable2_32  ;; 0x4004a024
+   \   000000B8   0x6008             STR      R0,[R1, #+0]
+    343            GPIO_PDDR_REG(DIR_PORT_BASE) |= (1<<9);//Dir:OUT
+   \   000000BA   0x.... 0x....      LDR.W    R0,??DataTable2_33  ;; 0x400ff054
+   \   000000BE   0x6800             LDR      R0,[R0, #+0]
+   \   000000C0   0xF450 0x7000      ORRS     R0,R0,#0x200
+   \   000000C4   0x.... 0x....      LDR.W    R1,??DataTable2_33  ;; 0x400ff054
+   \   000000C8   0x6008             STR      R0,[R1, #+0]
+    344            
+    345            DIR_LEFT_F;
+   \   000000CA   0x.... 0x....      LDR.W    R0,??DataTable2_26  ;; 0x400ff040
+   \   000000CE   0x6800             LDR      R0,[R0, #+0]
+   \   000000D0   0xF430 0x7000      BICS     R0,R0,#0x200
+   \   000000D4   0x.... 0x....      LDR.W    R1,??DataTable2_26  ;; 0x400ff040
+   \   000000D8   0x6008             STR      R0,[R1, #+0]
+    346          
+    347            FTM_PWM_Init(1,500); //500
+   \   000000DA   0xF44F 0x71FA      MOV      R1,#+500
+   \   000000DE   0x2001             MOVS     R0,#+1
+   \   000000E0   0x.... 0x....      BL       FTM_PWM_Init
+    348            FTM1_SC|=FTM_SC_TOIE_MASK;
+   \   000000E4   0x.... 0x....      LDR.W    R0,??DataTable2_34  ;; 0x40039000
+   \   000000E8   0x6800             LDR      R0,[R0, #+0]
+   \   000000EA   0xF050 0x0040      ORRS     R0,R0,#0x40
+   \   000000EE   0x.... 0x....      LDR.W    R1,??DataTable2_34  ;; 0x40039000
+   \   000000F2   0x6008             STR      R0,[R1, #+0]
+    349            FTM_PWM_Open(1,0,0);
+   \   000000F4   0x2200             MOVS     R2,#+0
+   \   000000F6   0x2100             MOVS     R1,#+0
+   \   000000F8   0x2001             MOVS     R0,#+1
+   \   000000FA   0x.... 0x....      BL       FTM_PWM_Open
+    350            
+    351            //限位开关的IO口中断初始化
+    352            //PORTB1
+    353            SIM_SCGC5|=SIM_SCGC5_PORTB_MASK;// 启用PORTB时钟
+   \   000000FE   0x.... 0x....      LDR.W    R0,??DataTable2_31  ;; 0x40048038
+   \   00000102   0x6800             LDR      R0,[R0, #+0]
+   \   00000104   0xF450 0x6080      ORRS     R0,R0,#0x400
+   \   00000108   0x.... 0x....      LDR.W    R1,??DataTable2_31  ;; 0x40048038
+   \   0000010C   0x6008             STR      R0,[R1, #+0]
+    354            PORTB_PCR1=(1<<8)|(0x9<<16);  // GPIO , 上升边沿触发 ,开启下拉电阻 
+   \   0000010E   0x.... 0x....      LDR.W    R0,??DataTable2_35  ;; 0x90100
+   \   00000112   0x.... 0x....      LDR.W    R1,??DataTable2_36  ;; 0x4004a004
+   \   00000116   0x6008             STR      R0,[R1, #+0]
+    355            GPIOB_PDDR &= ~(1<<1);           // 中断必须是输入模式
+   \   00000118   0x.... 0x....      LDR.W    R0,??DataTable2_33  ;; 0x400ff054
+   \   0000011C   0x6800             LDR      R0,[R0, #+0]
+   \   0000011E   0xF030 0x0002      BICS     R0,R0,#0x2
+   \   00000122   0x.... 0x....      LDR.W    R1,??DataTable2_33  ;; 0x400ff054
+   \   00000126   0x6008             STR      R0,[R1, #+0]
+    356            PORTB_DFER|=(1<<1);
+   \   00000128   0x.... 0x....      LDR.W    R0,??DataTable2_37  ;; 0x4004a0c0
+   \   0000012C   0x6800             LDR      R0,[R0, #+0]
+   \   0000012E   0xF050 0x0002      ORRS     R0,R0,#0x2
+   \   00000132   0x.... 0x....      LDR.W    R1,??DataTable2_37  ;; 0x4004a0c0
+   \   00000136   0x6008             STR      R0,[R1, #+0]
+    357            PORTB_DFWR|=0x1f;
+   \   00000138   0x.... 0x....      LDR.W    R0,??DataTable2_38  ;; 0x4004a0c8
+   \   0000013C   0x6800             LDR      R0,[R0, #+0]
+   \   0000013E   0xF050 0x001F      ORRS     R0,R0,#0x1F
+   \   00000142   0x.... 0x....      LDR.W    R1,??DataTable2_38  ;; 0x4004a0c8
+   \   00000146   0x6008             STR      R0,[R1, #+0]
+    358            //enable_irq(88);                 // 启用PORTB中断*/
+    359            //PORTE24
+    360            SIM_SCGC5|=SIM_SCGC5_PORTE_MASK;// 启用PORTE时钟
+   \   00000148   0x.... 0x....      LDR.W    R0,??DataTable2_31  ;; 0x40048038
+   \   0000014C   0x6800             LDR      R0,[R0, #+0]
+   \   0000014E   0xF450 0x5000      ORRS     R0,R0,#0x2000
+   \   00000152   0x.... 0x....      LDR.W    R1,??DataTable2_31  ;; 0x40048038
+   \   00000156   0x6008             STR      R0,[R1, #+0]
+    361            PORTE_PCR24=(1<<8)|(0x9<<16);  // GPIO , 上升边沿触发 ,开启下拉电阻 
+   \   00000158   0x.... 0x....      LDR.W    R0,??DataTable2_35  ;; 0x90100
+   \   0000015C   0x.... 0x....      LDR.W    R1,??DataTable2_39  ;; 0x4004d060
+   \   00000160   0x6008             STR      R0,[R1, #+0]
+    362            GPIOE_PDDR &= ~(1<<24);           // 中断必须是输入模式
+   \   00000162   0x.... 0x....      LDR.W    R0,??DataTable2_40  ;; 0x400ff114
+   \   00000166   0x6800             LDR      R0,[R0, #+0]
+   \   00000168   0xF030 0x7080      BICS     R0,R0,#0x1000000
+   \   0000016C   0x.... 0x....      LDR.W    R1,??DataTable2_40  ;; 0x400ff114
+   \   00000170   0x6008             STR      R0,[R1, #+0]
+    363            PORTE_DFER|=(1<<24);
+   \   00000172   0x.... 0x....      LDR.W    R0,??DataTable2_41  ;; 0x4004d0c0
+   \   00000176   0x6800             LDR      R0,[R0, #+0]
+   \   00000178   0xF050 0x7080      ORRS     R0,R0,#0x1000000
+   \   0000017C   0x.... 0x....      LDR.W    R1,??DataTable2_41  ;; 0x4004d0c0
+   \   00000180   0x6008             STR      R0,[R1, #+0]
+    364            PORTE_DFWR|=0x1f;
+   \   00000182   0x.... 0x....      LDR.W    R0,??DataTable2_42  ;; 0x4004d0c8
+   \   00000186   0x6800             LDR      R0,[R0, #+0]
+   \   00000188   0xF050 0x001F      ORRS     R0,R0,#0x1F
+   \   0000018C   0x.... 0x....      LDR.W    R1,??DataTable2_42  ;; 0x4004d0c8
+   \   00000190   0x6008             STR      R0,[R1, #+0]
+    365            enable_irq(91);                 // 启用PORTE中断*/
+   \   00000192   0x205B             MOVS     R0,#+91
+   \   00000194   0x.... 0x....      BL       enable_irq
+    366            
+    367            
+    368            //可调参数初始化
+    369            //AdjustPara();
+    370            
+    371            //串口初始化
+    372            uart_init(UART3,periph_clk_khz,9600);
+   \   00000198   0xF44F 0x5216      MOV      R2,#+9600
+   \   0000019C   0x.... 0x....      LDR.W    R0,??DataTable2_43
+   \   000001A0   0x6801             LDR      R1,[R0, #+0]
+   \   000001A2   0x.... 0x....      LDR.W    R0,??DataTable2_23  ;; 0x4006d000
+   \   000001A6   0x.... 0x....      BL       uart_init
+    373            enableuartreint(UART3,UART3irq);
+   \   000001AA   0x2133             MOVS     R1,#+51
+   \   000001AC   0x.... 0x....      LDR.W    R0,??DataTable2_23  ;; 0x4006d000
+   \   000001B0   0x.... 0x....      BL       enableuartreint
+    374            
+    375            //PIT0中断初始化
+    376            hw_pit_init(0,60000);                       //配置pit定时器0,1ms中断(60000)
+   \   000001B4   0xF64E 0x2160      MOVW     R1,#+60000
+   \   000001B8   0x2000             MOVS     R0,#+0
+   \   000001BA   0x.... 0x....      BL       hw_pit_init
+    377            enable_pit_interrupt(0);                    //开pit中断0通道
+   \   000001BE   0x2000             MOVS     R0,#+0
+   \   000001C0   0x.... 0x....      BL       enable_pit_interrupt
+    378            set_irq_priority (68,0);
+   \   000001C4   0x2100             MOVS     R1,#+0
+   \   000001C6   0x2044             MOVS     R0,#+68
+   \   000001C8   0x.... 0x....      BL       set_irq_priority
+    379            
+    380            //计时PIT1
+    381            //hw_pit_init(1,6000000);                       //配置pit定时器0,1ms中断(60000)
+    382            //enable_pit_interrupt(1);                    //开pit中断0通道
+    383            
+    384            EnableInterrupts;                           //开启总中断,中断开启后，此刻就进行1ms的定时吗？
+   \   000001CC   0xB662             CPSIE i
+    385          }
+   \   000001CE   0xBD01             POP      {R0,PC}          ;; return
+    386          
+    387          
+    388          //---------AdjustPara()------------------------------------------------------------
+
+   \                                 In section .text, align 4, keep-with-next
+    389          void AdjustPara()
+    390          {
+   \                     AdjustPara: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+    391            while(1)
+    392             {
+    393                //---
+    394                //break;
+    395                //user GUI
+    396                LCD_P8x16Str(0,0,"SSrt:1"); LCD_P8x16Str(70,0,"PBack:5");
+   \                     ??AdjustPara_0: (+1)
+   \   00000002   0x.... 0x....      LDR.W    R2,??DataTable2_44
+   \   00000006   0x2100             MOVS     R1,#+0
+   \   00000008   0x2000             MOVS     R0,#+0
+   \   0000000A   0x.... 0x....      BL       LCD_P8x16Str
+   \   0000000E   0x.... 0x....      LDR.W    R2,??DataTable2_45
+   \   00000012   0x2100             MOVS     R1,#+0
+   \   00000014   0x2046             MOVS     R0,#+70
+   \   00000016   0x.... 0x....      BL       LCD_P8x16Str
+    397                LCD_P8x16Str(0,2,"SBack1:2");
+   \   0000001A   0x.... 0x....      LDR.W    R2,??DataTable2_46
+   \   0000001E   0x2102             MOVS     R1,#+2
+   \   00000020   0x2000             MOVS     R0,#+0
+   \   00000022   0x.... 0x....      BL       LCD_P8x16Str
+    398                LCD_P8x16Str(0,4,"SSop:3");
+   \   00000026   0x.... 0x....      LDR.W    R2,??DataTable2_47
+   \   0000002A   0x2104             MOVS     R1,#+4
+   \   0000002C   0x2000             MOVS     R0,#+0
+   \   0000002E   0x.... 0x....      BL       LCD_P8x16Str
+    399                LCD_P8x16Str(0,6,"SBack2:4");
+   \   00000032   0x.... 0x....      LDR.W    R2,??DataTable2_48
+   \   00000036   0x2106             MOVS     R1,#+6
+   \   00000038   0x2000             MOVS     R0,#+0
+   \   0000003A   0x.... 0x....      BL       LCD_P8x16Str
+    400          
+    401                matrix_keyboard_init();
+   \   0000003E   0x.... 0x....      BL       matrix_keyboard_init
+    402                key_no=keyboard_scan();
+   \   00000042   0x.... 0x....      BL       keyboard_scan
+   \   00000046   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   0000004A   0x7008             STRB     R0,[R1, #+0]
+    403                
+    404                delay_ms(110);
+   \   0000004C   0x206E             MOVS     R0,#+110
+   \   0000004E   0x.... 0x....      BL       delay_ms
+    405          
+    406                //1号按键按下的时候调节SecStart
+    407                if(key_no==1)
+   \   00000052   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   00000056   0x7800             LDRB     R0,[R0, #+0]
+   \   00000058   0x2801             CMP      R0,#+1
+   \   0000005A   0xF040 0x8086      BNE.W    ??AdjustPara_1
+    408                 {
+    409                  key_no=255;
+   \   0000005E   0x20FF             MOVS     R0,#+255
+   \   00000060   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   00000064   0x7008             STRB     R0,[R1, #+0]
+    410                  BK=1;
+   \   00000066   0x2001             MOVS     R0,#+1
+   \   00000068   0x.... 0x....      LDR.W    R1,??DataTable2_50
+   \   0000006C   0x7008             STRB     R0,[R1, #+0]
+    411                  LCD_CLS();
+   \   0000006E   0x.... 0x....      BL       LCD_CLS
+   \   00000072   0xE073             B.N      ??AdjustPara_2
+    412                  while(BK==1)
+    413                  {
+    414                    LCD_P8x16Str(0,0,"SSrt:");
+   \                     ??AdjustPara_3: (+1)
+   \   00000074   0x.... 0x....      LDR.W    R2,??DataTable2_51
+   \   00000078   0x2100             MOVS     R1,#+0
+   \   0000007A   0x2000             MOVS     R0,#+0
+   \   0000007C   0x.... 0x....      BL       LCD_P8x16Str
+    415                    LCD_P8x16_number_4(60,0,SecStart);
+   \   00000080   0x.... 0x....      LDR.W    R0,??DataTable2_52
+   \   00000084   0x8802             LDRH     R2,[R0, #+0]
+   \   00000086   0x2100             MOVS     R1,#+0
+   \   00000088   0x203C             MOVS     R0,#+60
+   \   0000008A   0x.... 0x....      BL       LCD_P8x16_number_4
+    416                    
+    417                    LCD_P8x16Str(0,2,"+:");
+   \   0000008E   0xA2D7             ADR.N    R2,??AdjustPara_4  ;; 0x2B, 0x3A, 0x00, 0x00
+   \   00000090   0x2102             MOVS     R1,#+2
+   \   00000092   0x2000             MOVS     R0,#+0
+   \   00000094   0x.... 0x....      BL       LCD_P8x16Str
+    418                    LCD_P8x16Str(60,2,"Key7");
+   \   00000098   0x.... 0x....      LDR.W    R2,??DataTable2_53
+   \   0000009C   0x2102             MOVS     R1,#+2
+   \   0000009E   0x203C             MOVS     R0,#+60
+   \   000000A0   0x.... 0x....      BL       LCD_P8x16Str
+    419                    LCD_P8x16Str(0,4,"-:");
+   \   000000A4   0xA2D2             ADR.N    R2,??AdjustPara_4+0x4  ;; 0x2D, 0x3A, 0x00, 0x00
+   \   000000A6   0x2104             MOVS     R1,#+4
+   \   000000A8   0x2000             MOVS     R0,#+0
+   \   000000AA   0x.... 0x....      BL       LCD_P8x16Str
+    420                    LCD_P8x16Str(60,4,"Key8");
+   \   000000AE   0x.... 0x....      LDR.W    R2,??DataTable2_54
+   \   000000B2   0x2104             MOVS     R1,#+4
+   \   000000B4   0x203C             MOVS     R0,#+60
+   \   000000B6   0x.... 0x....      BL       LCD_P8x16Str
+    421                    LCD_P8x16Str(0,6,"Re:");
+   \   000000BA   0xA2CE             ADR.N    R2,??AdjustPara_4+0x8  ;; "Re:"
+   \   000000BC   0x2106             MOVS     R1,#+6
+   \   000000BE   0x2000             MOVS     R0,#+0
+   \   000000C0   0x.... 0x....      BL       LCD_P8x16Str
+    422                    LCD_P8x16Str(60,6,"Key9");
+   \   000000C4   0x.... 0x....      LDR.W    R2,??DataTable2_55
+   \   000000C8   0x2106             MOVS     R1,#+6
+   \   000000CA   0x203C             MOVS     R0,#+60
+   \   000000CC   0x.... 0x....      BL       LCD_P8x16Str
+    423                    
+    424                    delay_ms(110);
+   \   000000D0   0x206E             MOVS     R0,#+110
+   \   000000D2   0x.... 0x....      BL       delay_ms
+    425                    matrix_keyboard_init();
+   \   000000D6   0x.... 0x....      BL       matrix_keyboard_init
+    426                    key_num=keyboard_scan();
+   \   000000DA   0x.... 0x....      BL       keyboard_scan
+   \   000000DE   0x.... 0x....      LDR.W    R1,??DataTable2_56
+   \   000000E2   0x7008             STRB     R0,[R1, #+0]
+    427                    if(key_num!=255)
+   \   000000E4   0x.... 0x....      LDR.W    R0,??DataTable2_56
+   \   000000E8   0x7800             LDRB     R0,[R0, #+0]
+   \   000000EA   0x28FF             CMP      R0,#+255
+   \   000000EC   0xD005             BEQ.N    ??AdjustPara_5
+    428                    {
+    429                      key_no=key_num;
+   \   000000EE   0x.... 0x....      LDR.W    R0,??DataTable2_56
+   \   000000F2   0x7800             LDRB     R0,[R0, #+0]
+   \   000000F4   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   000000F8   0x7008             STRB     R0,[R1, #+0]
+    430                    }          
+    431          
+    432                    if(key_no==7)
+   \                     ??AdjustPara_5: (+1)
+   \   000000FA   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   000000FE   0x7800             LDRB     R0,[R0, #+0]
+   \   00000100   0x2807             CMP      R0,#+7
+   \   00000102   0xD10A             BNE.N    ??AdjustPara_6
+    433                    {
+    434                      SecStart=SecStart+10;
+   \   00000104   0x.... 0x....      LDR.W    R0,??DataTable2_52
+   \   00000108   0x8800             LDRH     R0,[R0, #+0]
+   \   0000010A   0x300A             ADDS     R0,R0,#+10
+   \   0000010C   0x.... 0x....      LDR.W    R1,??DataTable2_52
+   \   00000110   0x8008             STRH     R0,[R1, #+0]
+    435                      key_no=255;
+   \   00000112   0x20FF             MOVS     R0,#+255
+   \   00000114   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   00000118   0x7008             STRB     R0,[R1, #+0]
+    436                    }
+    437                  
+    438                    if(key_no==8)
+   \                     ??AdjustPara_6: (+1)
+   \   0000011A   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   0000011E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000120   0x2808             CMP      R0,#+8
+   \   00000122   0xD10A             BNE.N    ??AdjustPara_7
+    439                    {
+    440                      SecStart=SecStart-10;
+   \   00000124   0x.... 0x....      LDR.W    R0,??DataTable2_52
+   \   00000128   0x8800             LDRH     R0,[R0, #+0]
+   \   0000012A   0x380A             SUBS     R0,R0,#+10
+   \   0000012C   0x.... 0x....      LDR.W    R1,??DataTable2_52
+   \   00000130   0x8008             STRH     R0,[R1, #+0]
+    441                      key_no=255;
+   \   00000132   0x20FF             MOVS     R0,#+255
+   \   00000134   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   00000138   0x7008             STRB     R0,[R1, #+0]
+    442                    }
+    443                  
+    444                    if(key_no==9)
+   \                     ??AdjustPara_7: (+1)
+   \   0000013A   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   0000013E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000140   0x2809             CMP      R0,#+9
+   \   00000142   0xD10B             BNE.N    ??AdjustPara_2
+    445                    {
+    446                      BK=255;
+   \   00000144   0x20FF             MOVS     R0,#+255
+   \   00000146   0x.... 0x....      LDR.W    R1,??DataTable2_50
+   \   0000014A   0x7008             STRB     R0,[R1, #+0]
+    447                      key_no=255;
+   \   0000014C   0x20FF             MOVS     R0,#+255
+   \   0000014E   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   00000152   0x7008             STRB     R0,[R1, #+0]
+    448                      key_num=255;
+   \   00000154   0x20FF             MOVS     R0,#+255
+   \   00000156   0x.... 0x....      LDR.W    R1,??DataTable2_56
+   \   0000015A   0x7008             STRB     R0,[R1, #+0]
+    449                    }
+    450                  }
+   \                     ??AdjustPara_2: (+1)
+   \   0000015C   0x.... 0x....      LDR.W    R0,??DataTable2_50
+   \   00000160   0x7800             LDRB     R0,[R0, #+0]
+   \   00000162   0x2801             CMP      R0,#+1
+   \   00000164   0xD086             BEQ.N    ??AdjustPara_3
+    451                  LCD_CLS();
+   \   00000166   0x.... 0x....      BL       LCD_CLS
+    452                }
+    453                
+    454                //2号按键按下的时候调节SecBack1
+    455                if(key_no==2)
+   \                     ??AdjustPara_1: (+1)
+   \   0000016A   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   0000016E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000170   0x2802             CMP      R0,#+2
+   \   00000172   0xF040 0x8082      BNE.W    ??AdjustPara_8
+    456                 {
+    457                  key_no=255;
+   \   00000176   0x20FF             MOVS     R0,#+255
+   \   00000178   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   0000017C   0x7008             STRB     R0,[R1, #+0]
+    458                  BK=2;
+   \   0000017E   0x2002             MOVS     R0,#+2
+   \   00000180   0x.... 0x....      LDR.W    R1,??DataTable2_50
+   \   00000184   0x7008             STRB     R0,[R1, #+0]
+    459                  LCD_CLS();
+   \   00000186   0x.... 0x....      BL       LCD_CLS
+   \   0000018A   0xE06F             B.N      ??AdjustPara_9
+    460                  while(BK==2)
+    461                  {
+    462                    delay_ms(110);
+   \                     ??AdjustPara_10: (+1)
+   \   0000018C   0x206E             MOVS     R0,#+110
+   \   0000018E   0x.... 0x....      BL       delay_ms
+    463                    matrix_keyboard_init();
+   \   00000192   0x.... 0x....      BL       matrix_keyboard_init
+    464                    key_num=keyboard_scan();
+   \   00000196   0x.... 0x....      BL       keyboard_scan
+   \   0000019A   0x.... 0x....      LDR.W    R1,??DataTable2_56
+   \   0000019E   0x7008             STRB     R0,[R1, #+0]
+    465                    if(key_num!=255)
+   \   000001A0   0x.... 0x....      LDR.W    R0,??DataTable2_56
+   \   000001A4   0x7800             LDRB     R0,[R0, #+0]
+   \   000001A6   0x28FF             CMP      R0,#+255
+   \   000001A8   0xD005             BEQ.N    ??AdjustPara_11
+    466                    {
+    467                      key_no=key_num;
+   \   000001AA   0x.... 0x....      LDR.W    R0,??DataTable2_56
+   \   000001AE   0x7800             LDRB     R0,[R0, #+0]
+   \   000001B0   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   000001B4   0x7008             STRB     R0,[R1, #+0]
+    468                    }          
+    469                    LCD_P8x16Str(0,0,"SBack1:");
+   \                     ??AdjustPara_11: (+1)
+   \   000001B6   0x.... 0x....      LDR.W    R2,??DataTable2_57
+   \   000001BA   0x2100             MOVS     R1,#+0
+   \   000001BC   0x2000             MOVS     R0,#+0
+   \   000001BE   0x.... 0x....      BL       LCD_P8x16Str
+    470                    LCD_P8x16_number_4(60,0,SecBack1);
+   \   000001C2   0x.... 0x....      LDR.W    R0,??DataTable2_58
+   \   000001C6   0x8802             LDRH     R2,[R0, #+0]
+   \   000001C8   0x2100             MOVS     R1,#+0
+   \   000001CA   0x203C             MOVS     R0,#+60
+   \   000001CC   0x.... 0x....      BL       LCD_P8x16_number_4
+    471                    
+    472                    LCD_P8x16Str(0,2,"+:");
+   \   000001D0   0xA286             ADR.N    R2,??AdjustPara_4  ;; 0x2B, 0x3A, 0x00, 0x00
+   \   000001D2   0x2102             MOVS     R1,#+2
+   \   000001D4   0x2000             MOVS     R0,#+0
+   \   000001D6   0x.... 0x....      BL       LCD_P8x16Str
+    473                    LCD_P8x16Str(60,2,"Key4");
+   \   000001DA   0x.... 0x....      LDR.W    R2,??DataTable2_59
+   \   000001DE   0x2102             MOVS     R1,#+2
+   \   000001E0   0x203C             MOVS     R0,#+60
+   \   000001E2   0x.... 0x....      BL       LCD_P8x16Str
+    474                    LCD_P8x16Str(0,4,"-:");
+   \   000001E6   0xA282             ADR.N    R2,??AdjustPara_4+0x4  ;; 0x2D, 0x3A, 0x00, 0x00
+   \   000001E8   0x2104             MOVS     R1,#+4
+   \   000001EA   0x2000             MOVS     R0,#+0
+   \   000001EC   0x.... 0x....      BL       LCD_P8x16Str
+    475                    LCD_P8x16Str(60,4,"Key5");
+   \   000001F0   0x.... 0x....      LDR.W    R2,??DataTable2_60
+   \   000001F4   0x2104             MOVS     R1,#+4
+   \   000001F6   0x203C             MOVS     R0,#+60
+   \   000001F8   0x.... 0x....      BL       LCD_P8x16Str
+    476                    LCD_P8x16Str(0,6,"Re:");
+   \   000001FC   0xA27D             ADR.N    R2,??AdjustPara_4+0x8  ;; "Re:"
+   \   000001FE   0x2106             MOVS     R1,#+6
+   \   00000200   0x2000             MOVS     R0,#+0
+   \   00000202   0x.... 0x....      BL       LCD_P8x16Str
+    477                    LCD_P8x16Str(60,6,"Key6");
+   \   00000206   0x.... 0x....      LDR.W    R2,??DataTable2_61
+   \   0000020A   0x2106             MOVS     R1,#+6
+   \   0000020C   0x203C             MOVS     R0,#+60
+   \   0000020E   0x.... 0x....      BL       LCD_P8x16Str
+    478                    
+    479                    if(key_no==7)
+   \   00000212   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   00000216   0x7800             LDRB     R0,[R0, #+0]
+   \   00000218   0x2807             CMP      R0,#+7
+   \   0000021A   0xD10A             BNE.N    ??AdjustPara_12
+    480                    {
+    481                      SecBack1=SecBack1+10;
+   \   0000021C   0x.... 0x....      LDR.W    R0,??DataTable2_58
+   \   00000220   0x8800             LDRH     R0,[R0, #+0]
+   \   00000222   0x300A             ADDS     R0,R0,#+10
+   \   00000224   0x.... 0x....      LDR.W    R1,??DataTable2_58
+   \   00000228   0x8008             STRH     R0,[R1, #+0]
+    482                      key_no=255;
+   \   0000022A   0x20FF             MOVS     R0,#+255
+   \   0000022C   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   00000230   0x7008             STRB     R0,[R1, #+0]
+    483                    }
+    484                  
+    485                    if(key_no==8)
+   \                     ??AdjustPara_12: (+1)
+   \   00000232   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   00000236   0x7800             LDRB     R0,[R0, #+0]
+   \   00000238   0x2808             CMP      R0,#+8
+   \   0000023A   0xD10A             BNE.N    ??AdjustPara_13
+    486                    {
+    487                      SecBack1=SecBack1-10;
+   \   0000023C   0x.... 0x....      LDR.W    R0,??DataTable2_58
+   \   00000240   0x8800             LDRH     R0,[R0, #+0]
+   \   00000242   0x380A             SUBS     R0,R0,#+10
+   \   00000244   0x.... 0x....      LDR.W    R1,??DataTable2_58
+   \   00000248   0x8008             STRH     R0,[R1, #+0]
+    488                      key_no=255;
+   \   0000024A   0x20FF             MOVS     R0,#+255
+   \   0000024C   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   00000250   0x7008             STRB     R0,[R1, #+0]
+    489                    }
+    490                  
+    491                    if(key_no==9)
+   \                     ??AdjustPara_13: (+1)
+   \   00000252   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   00000256   0x7800             LDRB     R0,[R0, #+0]
+   \   00000258   0x2809             CMP      R0,#+9
+   \   0000025A   0xD107             BNE.N    ??AdjustPara_9
+    492                    {
+    493                      BK=255;
+   \   0000025C   0x20FF             MOVS     R0,#+255
+   \   0000025E   0x.... 0x....      LDR.W    R1,??DataTable2_50
+   \   00000262   0x7008             STRB     R0,[R1, #+0]
+    494                      key_no=255;
+   \   00000264   0x20FF             MOVS     R0,#+255
+   \   00000266   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   0000026A   0x7008             STRB     R0,[R1, #+0]
+    495                    }
+    496                  }
+   \                     ??AdjustPara_9: (+1)
+   \   0000026C   0x.... 0x....      LDR.W    R0,??DataTable2_50
+   \   00000270   0x7800             LDRB     R0,[R0, #+0]
+   \   00000272   0x2802             CMP      R0,#+2
+   \   00000274   0xD08A             BEQ.N    ??AdjustPara_10
+    497                  LCD_CLS();
+   \   00000276   0x.... 0x....      BL       LCD_CLS
+    498                 }
+    499                //3号按键按下的时候调节SecStop
+    500                if(key_no==3)
+   \                     ??AdjustPara_8: (+1)
+   \   0000027A   0x.... 0x....      LDR.W    R0,??DataTable2_49
+   \   0000027E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000280   0x2803             CMP      R0,#+3
+   \   00000282   0xD173             BNE.N    ??AdjustPara_14
+    501                 {
+    502                  key_no=255;
+   \   00000284   0x20FF             MOVS     R0,#+255
+   \   00000286   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   0000028A   0x7008             STRB     R0,[R1, #+0]
+    503                  BK=3;
+   \   0000028C   0x2003             MOVS     R0,#+3
+   \   0000028E   0x.... 0x....      LDR.W    R1,??DataTable2_50
+   \   00000292   0x7008             STRB     R0,[R1, #+0]
+    504                  LCD_CLS();
+   \   00000294   0x.... 0x....      BL       LCD_CLS
+   \   00000298   0xE062             B.N      ??AdjustPara_15
+    505                  while(BK==3)
+    506                  {
+    507                    delay_ms(110);
+   \                     ??AdjustPara_16: (+1)
+   \   0000029A   0x206E             MOVS     R0,#+110
+   \   0000029C   0x.... 0x....      BL       delay_ms
+    508                    matrix_keyboard_init();
+   \   000002A0   0x.... 0x....      BL       matrix_keyboard_init
+    509                    key_num=keyboard_scan();
+   \   000002A4   0x.... 0x....      BL       keyboard_scan
+   \   000002A8   0x.... 0x....      LDR.W    R1,??DataTable2_56
+   \   000002AC   0x7008             STRB     R0,[R1, #+0]
+    510                    if(key_num!=255)
+   \   000002AE   0x.... 0x....      LDR.W    R0,??DataTable2_56
+   \   000002B2   0x7800             LDRB     R0,[R0, #+0]
+   \   000002B4   0x28FF             CMP      R0,#+255
+   \   000002B6   0xD005             BEQ.N    ??AdjustPara_17
+    511                    {
+    512                      key_no=key_num;
+   \   000002B8   0x.... 0x....      LDR.W    R0,??DataTable2_56
+   \   000002BC   0x7800             LDRB     R0,[R0, #+0]
+   \   000002BE   0x.... 0x....      LDR.W    R1,??DataTable2_49
+   \   000002C2   0x7008             STRB     R0,[R1, #+0]
+    513                    }          
+    514                    LCD_P8x16Str(0,0,"SSop:");
+   \                     ??AdjustPara_17: (+1)
+   \   000002C4   0x.... 0x....      LDR.W    R2,??DataTable2_62
+   \   000002C8   0x2100             MOVS     R1,#+0
+   \   000002CA   0x2000             MOVS     R0,#+0
+   \   000002CC   0x.... 0x....      BL       LCD_P8x16Str
+    515                    LCD_P8x16_number_4(60,0,SecStop);
+   \   000002D0   0x.... 0x....      LDR.W    R0,??DataTable2_63
+   \   000002D4   0x8802             LDRH     R2,[R0, #+0]
+   \   000002D6   0x2100             MOVS     R1,#+0
+   \   000002D8   0x203C             MOVS     R0,#+60
+   \   000002DA   0x.... 0x....      BL       LCD_P8x16_number_4
+    516                    
+    517                    LCD_P8x16Str(0,2,"+:");
+   \   000002DE   0xA243             ADR.N    R2,??AdjustPara_4  ;; 0x2B, 0x3A, 0x00, 0x00
+   \   000002E0   0x2102             MOVS     R1,#+2
+   \   000002E2   0x2000             MOVS     R0,#+0
+   \   000002E4   0x.... 0x....      BL       LCD_P8x16Str
+    518                    LCD_P8x16Str(60,2,"Key4");
+   \   000002E8   0x.... 0x....      LDR.W    R2,??DataTable2_59
+   \   000002EC   0x2102             MOVS     R1,#+2
+   \   000002EE   0x203C             MOVS     R0,#+60
+   \   000002F0   0x.... 0x....      BL       LCD_P8x16Str
+    519                    LCD_P8x16Str(0,4,"-:");
+   \   000002F4   0xA23E             ADR.N    R2,??AdjustPara_4+0x4  ;; 0x2D, 0x3A, 0x00, 0x00
+   \   000002F6   0x2104             MOVS     R1,#+4
+   \   000002F8   0x2000             MOVS     R0,#+0
+   \   000002FA   0x.... 0x....      BL       LCD_P8x16Str
+    520                    LCD_P8x16Str(60,4,"Key5");
+   \   000002FE   0x....             LDR.N    R2,??DataTable2_60
+   \   00000300   0x2104             MOVS     R1,#+4
+   \   00000302   0x203C             MOVS     R0,#+60
+   \   00000304   0x.... 0x....      BL       LCD_P8x16Str
+    521                    LCD_P8x16Str(0,6,"Re:");
+   \   00000308   0xA23A             ADR.N    R2,??AdjustPara_4+0x8  ;; "Re:"
+   \   0000030A   0x2106             MOVS     R1,#+6
+   \   0000030C   0x2000             MOVS     R0,#+0
+   \   0000030E   0x.... 0x....      BL       LCD_P8x16Str
+    522                    LCD_P8x16Str(60,6,"Key6");
+   \   00000312   0x....             LDR.N    R2,??DataTable2_61
+   \   00000314   0x2106             MOVS     R1,#+6
+   \   00000316   0x203C             MOVS     R0,#+60
+   \   00000318   0x.... 0x....      BL       LCD_P8x16Str
+    523                    
+    524                    if(key_no==7)
+   \   0000031C   0x....             LDR.N    R0,??DataTable2_49
+   \   0000031E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000320   0x2807             CMP      R0,#+7
+   \   00000322   0xD107             BNE.N    ??AdjustPara_18
+    525                    {
+    526                      SecStop=SecStop+10;
+   \   00000324   0x....             LDR.N    R0,??DataTable2_63
+   \   00000326   0x8800             LDRH     R0,[R0, #+0]
+   \   00000328   0x300A             ADDS     R0,R0,#+10
+   \   0000032A   0x....             LDR.N    R1,??DataTable2_63
+   \   0000032C   0x8008             STRH     R0,[R1, #+0]
+    527                      key_no=255;
+   \   0000032E   0x20FF             MOVS     R0,#+255
+   \   00000330   0x....             LDR.N    R1,??DataTable2_49
+   \   00000332   0x7008             STRB     R0,[R1, #+0]
+    528                    }
+    529                  
+    530                    if(key_no==8)
+   \                     ??AdjustPara_18: (+1)
+   \   00000334   0x....             LDR.N    R0,??DataTable2_49
+   \   00000336   0x7800             LDRB     R0,[R0, #+0]
+   \   00000338   0x2808             CMP      R0,#+8
+   \   0000033A   0xD107             BNE.N    ??AdjustPara_19
+    531                    {
+    532                      SecStop=SecStop-10;
+   \   0000033C   0x....             LDR.N    R0,??DataTable2_63
+   \   0000033E   0x8800             LDRH     R0,[R0, #+0]
+   \   00000340   0x380A             SUBS     R0,R0,#+10
+   \   00000342   0x....             LDR.N    R1,??DataTable2_63
+   \   00000344   0x8008             STRH     R0,[R1, #+0]
+    533                      key_no=255;
+   \   00000346   0x20FF             MOVS     R0,#+255
+   \   00000348   0x....             LDR.N    R1,??DataTable2_49
+   \   0000034A   0x7008             STRB     R0,[R1, #+0]
+    534                    }
+    535                  
+    536                    if(key_no==9)
+   \                     ??AdjustPara_19: (+1)
+   \   0000034C   0x....             LDR.N    R0,??DataTable2_49
+   \   0000034E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000350   0x2809             CMP      R0,#+9
+   \   00000352   0xD105             BNE.N    ??AdjustPara_15
+    537                    {
+    538                      BK=255;
+   \   00000354   0x20FF             MOVS     R0,#+255
+   \   00000356   0x....             LDR.N    R1,??DataTable2_50
+   \   00000358   0x7008             STRB     R0,[R1, #+0]
+    539                      key_no=255;
+   \   0000035A   0x20FF             MOVS     R0,#+255
+   \   0000035C   0x....             LDR.N    R1,??DataTable2_49
+   \   0000035E   0x7008             STRB     R0,[R1, #+0]
+    540                    }
+    541                  }
+   \                     ??AdjustPara_15: (+1)
+   \   00000360   0x....             LDR.N    R0,??DataTable2_50
+   \   00000362   0x7800             LDRB     R0,[R0, #+0]
+   \   00000364   0x2803             CMP      R0,#+3
+   \   00000366   0xD098             BEQ.N    ??AdjustPara_16
+    542                  LCD_CLS();
+   \   00000368   0x.... 0x....      BL       LCD_CLS
+    543                 }
+    544                
+    545                //4号按键按下的时候调节SecBack2
+    546                if(key_no==4)
+   \                     ??AdjustPara_14: (+1)
+   \   0000036C   0x....             LDR.N    R0,??DataTable2_49
+   \   0000036E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000370   0x2804             CMP      R0,#+4
+   \   00000372   0xD172             BNE.N    ??AdjustPara_20
+    547                 {
+    548                  key_no=255;
+   \   00000374   0x20FF             MOVS     R0,#+255
+   \   00000376   0x....             LDR.N    R1,??DataTable2_49
+   \   00000378   0x7008             STRB     R0,[R1, #+0]
+    549                  BK=4;
+   \   0000037A   0x2004             MOVS     R0,#+4
+   \   0000037C   0x....             LDR.N    R1,??DataTable2_50
+   \   0000037E   0x7008             STRB     R0,[R1, #+0]
+    550                  LCD_CLS();
+   \   00000380   0x.... 0x....      BL       LCD_CLS
+   \   00000384   0xE063             B.N      ??AdjustPara_21
+    551                  while(BK==4)
+    552                  {
+    553                    delay_ms(110);
+   \                     ??AdjustPara_22: (+1)
+   \   00000386   0x206E             MOVS     R0,#+110
+   \   00000388   0x.... 0x....      BL       delay_ms
+    554                    matrix_keyboard_init();
+   \   0000038C   0x.... 0x....      BL       matrix_keyboard_init
+    555                    key_num=keyboard_scan();
+   \   00000390   0x.... 0x....      BL       keyboard_scan
+   \   00000394   0x....             LDR.N    R1,??DataTable2_56
+   \   00000396   0x7008             STRB     R0,[R1, #+0]
+    556                    if(key_num!=255)
+   \   00000398   0x....             LDR.N    R0,??DataTable2_56
+   \   0000039A   0x7800             LDRB     R0,[R0, #+0]
+   \   0000039C   0x28FF             CMP      R0,#+255
+   \   0000039E   0xD003             BEQ.N    ??AdjustPara_23
+    557                    {
+    558                      key_no=key_num;
+   \   000003A0   0x....             LDR.N    R0,??DataTable2_56
+   \   000003A2   0x7800             LDRB     R0,[R0, #+0]
+   \   000003A4   0x....             LDR.N    R1,??DataTable2_49
+   \   000003A6   0x7008             STRB     R0,[R1, #+0]
+    559                    }          
+    560                    LCD_P8x16Str(0,0,"SBack2:");
+   \                     ??AdjustPara_23: (+1)
+   \   000003A8   0x....             LDR.N    R2,??DataTable2_64
+   \   000003AA   0x2100             MOVS     R1,#+0
+   \   000003AC   0x2000             MOVS     R0,#+0
+   \   000003AE   0x.... 0x....      BL       LCD_P8x16Str
+    561                    LCD_P8x16_number_4(60,0,SecBack2);
+   \   000003B2   0x....             LDR.N    R0,??DataTable2_65
+   \   000003B4   0x8802             LDRH     R2,[R0, #+0]
+   \   000003B6   0x2100             MOVS     R1,#+0
+   \   000003B8   0x203C             MOVS     R0,#+60
+   \   000003BA   0x.... 0x....      BL       LCD_P8x16_number_4
+    562                    
+    563                    LCD_P8x16Str(0,2,"+:");
+   \   000003BE   0xA20B             ADR.N    R2,??AdjustPara_4  ;; 0x2B, 0x3A, 0x00, 0x00
+   \   000003C0   0x2102             MOVS     R1,#+2
+   \   000003C2   0x2000             MOVS     R0,#+0
+   \   000003C4   0x.... 0x....      BL       LCD_P8x16Str
+    564                    LCD_P8x16Str(60,2,"Key4");
+   \   000003C8   0x....             LDR.N    R2,??DataTable2_59
+   \   000003CA   0x2102             MOVS     R1,#+2
+   \   000003CC   0x203C             MOVS     R0,#+60
+   \   000003CE   0x.... 0x....      BL       LCD_P8x16Str
+    565                    LCD_P8x16Str(0,4,"-:");
+   \   000003D2   0xA207             ADR.N    R2,??AdjustPara_4+0x4  ;; 0x2D, 0x3A, 0x00, 0x00
+   \   000003D4   0x2104             MOVS     R1,#+4
+   \   000003D6   0x2000             MOVS     R0,#+0
+   \   000003D8   0x.... 0x....      BL       LCD_P8x16Str
+    566                    LCD_P8x16Str(60,4,"Key5");
+   \   000003DC   0x....             LDR.N    R2,??DataTable2_60
+   \   000003DE   0x2104             MOVS     R1,#+4
+   \   000003E0   0x203C             MOVS     R0,#+60
+   \   000003E2   0x.... 0x....      BL       LCD_P8x16Str
+    567                    LCD_P8x16Str(0,6,"Re:");
+   \   000003E6   0xA203             ADR.N    R2,??AdjustPara_4+0x8  ;; "Re:"
+   \   000003E8   0xE006             B.N      ??AdjustPara_24
+   \   000003EA   0xBF00             Nop      
+   \                     ??AdjustPara_4:
+   \   000003EC   0x2B 0x3A          DC8      0x2B, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+   \   000003F0   0x2D 0x3A          DC8      0x2D, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+   \   000003F4   0x52 0x65          DC8      "Re:"
+   \              0x3A 0x00    
+   \                     ??AdjustPara_24: (+1)
+   \   000003F8   0x2106             MOVS     R1,#+6
+   \   000003FA   0x2000             MOVS     R0,#+0
+   \   000003FC   0x.... 0x....      BL       LCD_P8x16Str
+    568                    LCD_P8x16Str(60,6,"Key6");
+   \   00000400   0x....             LDR.N    R2,??DataTable2_61
+   \   00000402   0x2106             MOVS     R1,#+6
+   \   00000404   0x203C             MOVS     R0,#+60
+   \   00000406   0x.... 0x....      BL       LCD_P8x16Str
+    569                    
+    570                    if(key_no==7)
+   \   0000040A   0x....             LDR.N    R0,??DataTable2_49
+   \   0000040C   0x7800             LDRB     R0,[R0, #+0]
+   \   0000040E   0x2807             CMP      R0,#+7
+   \   00000410   0xD107             BNE.N    ??AdjustPara_25
+    571                    {
+    572                      SecBack2=SecBack2+10;
+   \   00000412   0x....             LDR.N    R0,??DataTable2_65
+   \   00000414   0x8800             LDRH     R0,[R0, #+0]
+   \   00000416   0x300A             ADDS     R0,R0,#+10
+   \   00000418   0x....             LDR.N    R1,??DataTable2_65
+   \   0000041A   0x8008             STRH     R0,[R1, #+0]
+    573                      key_no=255;
+   \   0000041C   0x20FF             MOVS     R0,#+255
+   \   0000041E   0x....             LDR.N    R1,??DataTable2_49
+   \   00000420   0x7008             STRB     R0,[R1, #+0]
+    574                    }
+    575                  
+    576                    if(key_no==8)
+   \                     ??AdjustPara_25: (+1)
+   \   00000422   0x....             LDR.N    R0,??DataTable2_49
+   \   00000424   0x7800             LDRB     R0,[R0, #+0]
+   \   00000426   0x2808             CMP      R0,#+8
+   \   00000428   0xD107             BNE.N    ??AdjustPara_26
+    577                    {
+    578                      SecBack2=SecBack2-10;
+   \   0000042A   0x....             LDR.N    R0,??DataTable2_65
+   \   0000042C   0x8800             LDRH     R0,[R0, #+0]
+   \   0000042E   0x380A             SUBS     R0,R0,#+10
+   \   00000430   0x....             LDR.N    R1,??DataTable2_65
+   \   00000432   0x8008             STRH     R0,[R1, #+0]
+    579                      key_no=255;
+   \   00000434   0x20FF             MOVS     R0,#+255
+   \   00000436   0x....             LDR.N    R1,??DataTable2_49
+   \   00000438   0x7008             STRB     R0,[R1, #+0]
+    580                    }
+    581                  
+    582                    if(key_no==9)
+   \                     ??AdjustPara_26: (+1)
+   \   0000043A   0x....             LDR.N    R0,??DataTable2_49
+   \   0000043C   0x7800             LDRB     R0,[R0, #+0]
+   \   0000043E   0x2809             CMP      R0,#+9
+   \   00000440   0xD105             BNE.N    ??AdjustPara_21
+    583                    {
+    584                      BK=255;
+   \   00000442   0x20FF             MOVS     R0,#+255
+   \   00000444   0x....             LDR.N    R1,??DataTable2_50
+   \   00000446   0x7008             STRB     R0,[R1, #+0]
+    585                      key_no=255;
+   \   00000448   0x20FF             MOVS     R0,#+255
+   \   0000044A   0x....             LDR.N    R1,??DataTable2_49
+   \   0000044C   0x7008             STRB     R0,[R1, #+0]
+    586                    }
+    587                  }
+   \                     ??AdjustPara_21: (+1)
+   \   0000044E   0x....             LDR.N    R0,??DataTable2_50
+   \   00000450   0x7800             LDRB     R0,[R0, #+0]
+   \   00000452   0x2804             CMP      R0,#+4
+   \   00000454   0xD097             BEQ.N    ??AdjustPara_22
+    588                  LCD_CLS();
+   \   00000456   0x.... 0x....      BL       LCD_CLS
+    589                 }//PwmBack
+    590                //5号按键按下的时候调节PwmBack
+    591                if(key_no==5)
+   \                     ??AdjustPara_20: (+1)
+   \   0000045A   0x....             LDR.N    R0,??DataTable2_49
+   \   0000045C   0x7800             LDRB     R0,[R0, #+0]
+   \   0000045E   0x2805             CMP      R0,#+5
+   \   00000460   0xD16A             BNE.N    ??AdjustPara_27
+    592                 {
+    593                  key_no=255;
+   \   00000462   0x20FF             MOVS     R0,#+255
+   \   00000464   0x....             LDR.N    R1,??DataTable2_49
+   \   00000466   0x7008             STRB     R0,[R1, #+0]
+    594                  BK=5;
+   \   00000468   0x2005             MOVS     R0,#+5
+   \   0000046A   0x....             LDR.N    R1,??DataTable2_50
+   \   0000046C   0x7008             STRB     R0,[R1, #+0]
+    595                  LCD_CLS();
+   \   0000046E   0x.... 0x....      BL       LCD_CLS
+   \   00000472   0xE05B             B.N      ??AdjustPara_28
+    596                  while(BK==5)
+    597                  {
+    598                    delay_ms(110);
+   \                     ??AdjustPara_29: (+1)
+   \   00000474   0x206E             MOVS     R0,#+110
+   \   00000476   0x.... 0x....      BL       delay_ms
+    599                    matrix_keyboard_init();
+   \   0000047A   0x.... 0x....      BL       matrix_keyboard_init
+    600                    key_num=keyboard_scan();
+   \   0000047E   0x.... 0x....      BL       keyboard_scan
+   \   00000482   0x....             LDR.N    R1,??DataTable2_56
+   \   00000484   0x7008             STRB     R0,[R1, #+0]
+    601                    if(key_num!=255)
+   \   00000486   0x....             LDR.N    R0,??DataTable2_56
+   \   00000488   0x7800             LDRB     R0,[R0, #+0]
+   \   0000048A   0x28FF             CMP      R0,#+255
+   \   0000048C   0xD003             BEQ.N    ??AdjustPara_30
+    602                    {
+    603                      key_no=key_num;
+   \   0000048E   0x....             LDR.N    R0,??DataTable2_56
+   \   00000490   0x7800             LDRB     R0,[R0, #+0]
+   \   00000492   0x....             LDR.N    R1,??DataTable2_49
+   \   00000494   0x7008             STRB     R0,[R1, #+0]
+    604                    }          
+    605                    LCD_P8x16Str(0,0,"PBack:");
+   \                     ??AdjustPara_30: (+1)
+   \   00000496   0x....             LDR.N    R2,??DataTable2_66
+   \   00000498   0x2100             MOVS     R1,#+0
+   \   0000049A   0x2000             MOVS     R0,#+0
+   \   0000049C   0x.... 0x....      BL       LCD_P8x16Str
+    606                    LCD_P8x16_number_4(60,0,PwmBack);
+   \   000004A0   0x....             LDR.N    R0,??DataTable2_67
+   \   000004A2   0x6802             LDR      R2,[R0, #+0]
+   \   000004A4   0x2100             MOVS     R1,#+0
+   \   000004A6   0x203C             MOVS     R0,#+60
+   \   000004A8   0x.... 0x....      BL       LCD_P8x16_number_4
+    607                    
+    608                    LCD_P8x16Str(0,2,"+:");
+   \   000004AC   0x....             ADR.N    R2,??DataTable2_5  ;; 0x2B, 0x3A, 0x00, 0x00
+   \   000004AE   0x2102             MOVS     R1,#+2
+   \   000004B0   0x2000             MOVS     R0,#+0
+   \   000004B2   0x.... 0x....      BL       LCD_P8x16Str
+    609                    LCD_P8x16Str(60,2,"Key4");
+   \   000004B6   0x....             LDR.N    R2,??DataTable2_59
+   \   000004B8   0x2102             MOVS     R1,#+2
+   \   000004BA   0x203C             MOVS     R0,#+60
+   \   000004BC   0x.... 0x....      BL       LCD_P8x16Str
+    610                    LCD_P8x16Str(0,4,"-:");
+   \   000004C0   0x....             ADR.N    R2,??DataTable2_6  ;; 0x2D, 0x3A, 0x00, 0x00
+   \   000004C2   0x2104             MOVS     R1,#+4
+   \   000004C4   0x2000             MOVS     R0,#+0
+   \   000004C6   0x.... 0x....      BL       LCD_P8x16Str
+    611                    LCD_P8x16Str(60,4,"Key5");
+   \   000004CA   0x....             LDR.N    R2,??DataTable2_60
+   \   000004CC   0x2104             MOVS     R1,#+4
+   \   000004CE   0x203C             MOVS     R0,#+60
+   \   000004D0   0x.... 0x....      BL       LCD_P8x16Str
+    612                    LCD_P8x16Str(0,6,"Re:");
+   \   000004D4   0x....             ADR.N    R2,??DataTable2_8  ;; "Re:"
+   \   000004D6   0x2106             MOVS     R1,#+6
+   \   000004D8   0x2000             MOVS     R0,#+0
+   \   000004DA   0x.... 0x....      BL       LCD_P8x16Str
+    613                    LCD_P8x16Str(60,6,"Key6");
+   \   000004DE   0x....             LDR.N    R2,??DataTable2_61
+   \   000004E0   0x2106             MOVS     R1,#+6
+   \   000004E2   0x203C             MOVS     R0,#+60
+   \   000004E4   0x.... 0x....      BL       LCD_P8x16Str
+    614                    
+    615                    if(key_no==7)
+   \   000004E8   0x....             LDR.N    R0,??DataTable2_49
+   \   000004EA   0x7800             LDRB     R0,[R0, #+0]
+   \   000004EC   0x2807             CMP      R0,#+7
+   \   000004EE   0xD107             BNE.N    ??AdjustPara_31
+    616                    {
+    617                      PwmBack=PwmBack+5;
+   \   000004F0   0x....             LDR.N    R0,??DataTable2_67
+   \   000004F2   0x6800             LDR      R0,[R0, #+0]
+   \   000004F4   0x1D40             ADDS     R0,R0,#+5
+   \   000004F6   0x....             LDR.N    R1,??DataTable2_67
+   \   000004F8   0x6008             STR      R0,[R1, #+0]
+    618                      key_no=255;
+   \   000004FA   0x20FF             MOVS     R0,#+255
+   \   000004FC   0x....             LDR.N    R1,??DataTable2_49
+   \   000004FE   0x7008             STRB     R0,[R1, #+0]
+    619                    }
+    620                  
+    621                    if(key_no==8)
+   \                     ??AdjustPara_31: (+1)
+   \   00000500   0x....             LDR.N    R0,??DataTable2_49
+   \   00000502   0x7800             LDRB     R0,[R0, #+0]
+   \   00000504   0x2808             CMP      R0,#+8
+   \   00000506   0xD107             BNE.N    ??AdjustPara_32
+    622                    {
+    623                      PwmBack=PwmBack-5;
+   \   00000508   0x....             LDR.N    R0,??DataTable2_67
+   \   0000050A   0x6800             LDR      R0,[R0, #+0]
+   \   0000050C   0x1F40             SUBS     R0,R0,#+5
+   \   0000050E   0x....             LDR.N    R1,??DataTable2_67
+   \   00000510   0x6008             STR      R0,[R1, #+0]
+    624                      key_no=255;
+   \   00000512   0x20FF             MOVS     R0,#+255
+   \   00000514   0x....             LDR.N    R1,??DataTable2_49
+   \   00000516   0x7008             STRB     R0,[R1, #+0]
+    625                    }
+    626                  
+    627                    if(key_no==9)
+   \                     ??AdjustPara_32: (+1)
+   \   00000518   0x....             LDR.N    R0,??DataTable2_49
+   \   0000051A   0x7800             LDRB     R0,[R0, #+0]
+   \   0000051C   0x2809             CMP      R0,#+9
+   \   0000051E   0xD105             BNE.N    ??AdjustPara_28
+    628                    {
+    629                      BK=255;
+   \   00000520   0x20FF             MOVS     R0,#+255
+   \   00000522   0x....             LDR.N    R1,??DataTable2_50
+   \   00000524   0x7008             STRB     R0,[R1, #+0]
+    630                      key_no=255;
+   \   00000526   0x20FF             MOVS     R0,#+255
+   \   00000528   0x....             LDR.N    R1,??DataTable2_49
+   \   0000052A   0x7008             STRB     R0,[R1, #+0]
+    631                    }
+    632                  }
+   \                     ??AdjustPara_28: (+1)
+   \   0000052C   0x....             LDR.N    R0,??DataTable2_50
+   \   0000052E   0x7800             LDRB     R0,[R0, #+0]
+   \   00000530   0x2805             CMP      R0,#+5
+   \   00000532   0xD09F             BEQ.N    ??AdjustPara_29
+    633                  LCD_CLS();
+   \   00000534   0x.... 0x....      BL       LCD_CLS
+    634                 }/*
+    635                //6号按键按下的时候调节QPX_SET
+    636                if(key_no==6)
+    637                 {
+    638                  key_no=255;
+    639                  BK=6;
+    640                  LCD_CLS();
+    641                  while(BK==6)
+    642                  {
+    643                    delay_ms(110);
+    644                    matrix_keyboard_init();
+    645                    key_num=keyboard_scan();
+    646                    if(key_num!=255)
+    647                    {
+    648                      key_no=key_num;
+    649                    }          
+    650                    LCD_P8x16Str(0,0,"QPX_S:");
+    651          
+    652                    LCD_P8x16Str(0,2,"+:");
+    653                    LCD_P8x16Str(60,2,"Key4");
+    654                    LCD_P8x16Str(0,4,"-:");
+    655                    LCD_P8x16Str(60,4,"Key5");
+    656                    LCD_P8x16Str(0,6,"Re:");
+    657                    LCD_P8x16Str(60,6,"Key6");
+    658                    
+    659                    if(key_no==7)
+    660                    {
+    661             
+    662                      key_no=255;
+    663                    }
+    664                  
+    665                    if(key_no==8)
+    666                    {
+    667                   
+    668                      key_no=255;
+    669                    }
+    670                  
+    671                    if(key_no==9)
+    672                    {
+    673                      BK=255;
+    674                      key_no=255;
+    675                    }
+    676                  }
+    677                  LCD_CLS();
+    678                 }*/
+    679               //10号按键按下 采集数据
+    680               if(key_no==10)
+   \                     ??AdjustPara_27: (+1)
+   \   00000538   0x....             LDR.N    R0,??DataTable2_49
+   \   0000053A   0x7800             LDRB     R0,[R0, #+0]
+   \   0000053C   0x280A             CMP      R0,#+10
+   \   0000053E   0xF47F 0xAD60      BNE.W    ??AdjustPara_0
+    681               {
+    682                 key_no=255;
+   \   00000542   0x20FF             MOVS     R0,#+255
+   \   00000544   0x....             LDR.N    R1,??DataTable2_49
+   \   00000546   0x7008             STRB     R0,[R1, #+0]
+    683                 LCD_CLS();
+   \   00000548   0x.... 0x....      BL       LCD_CLS
+    684                 break;
+    685               }
+    686             } 
+    687          }
+   \   0000054C   0xBD01             POP      {R0,PC}          ;; return
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable0:
+   \   00000000   0x50 0x3A          DC8      "P:+"
+   \              0x2B 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable0_1:
+   \   00000000   0x78 0x2B          DC8      0x78, 0x2B, 0x00, 0x00
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable0_2:
+   \   00000000   0x78 0x2D          DC8      0x78, 0x2D, 0x00, 0x00
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable0_3:
+   \   00000000   0x44 0x3A          DC8      "D:-"
+   \              0x2D 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable0_4:
+   \   00000000   0x44 0x3A          DC8      "D:+"
+   \              0x2B 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   0x42 0x3A          DC8      0x42, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_1:
+   \   00000000   0x45 0x3A          DC8      0x45, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_2:
+   \   00000000   0x50 0x3A          DC8      "P:-"
+   \              0x2D 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_3:
+   \   00000000   0x........         DC32     `?<Constant "nrf24l01 err">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_4:
+   \   00000000   0x........         DC32     `?<Constant "nrf24l01 ok">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_5:
+   \   00000000   0x........         DC32     StepOk
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_6:
+   \   00000000   0x........         DC32     motor_run_pos
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_7:
+   \   00000000   0x........         DC32     motor_run_nag
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_8:
+   \   00000000   0xFFFFF8F8         DC32     0xfffff8f8
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_9:
+   \   00000000   0x........         DC32     motor_stop
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_10:
+   \   00000000   0x........         DC32     run_constant_angle_pos
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_11:
+   \   00000000   0x........         DC32     constant_angle
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_12:
+   \   00000000   0x404EC000         DC32     0x404ec000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_13:
+   \   00000000   0x........         DC32     FTM_Count
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_14:
+   \   00000000   0x........         DC32     run_constant_angle_nag
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_15:
+   \   00000000   0x........         DC32     g_n1msEventCount
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_16:
+   \   00000000   0x........         DC32     PB1_flag
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_17:
+   \   00000000   0x........         DC32     BatteryVoltage
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_18:
+   \   00000000   0x........         DC32     analyse_over
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   0x........         DC32     first
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_1:
+   \   00000000   0x........         DC32     PE24_flag
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_2:
+   \   00000000   0x........         DC32     `?<Constant "Sok:">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_3:
+   \   00000000   0x........         DC32     `?<Constant "fir:">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_4:
+   \   00000000   0x........         DC32     command_str
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_5:
+   \   00000000   0x2B 0x3A          DC8      0x2B, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_6:
+   \   00000000   0x2D 0x3A          DC8      0x2D, 0x3A, 0x00, 0x00
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_7:
+   \   00000000   0x........         DC32     DM_start
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_8:
+   \   00000000   0x52 0x65          DC8      "Re:"
+   \              0x3A 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_9:
+   \   00000000   0x40490000         DC32     0x40490000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_10:
+   \   00000000   0x........         DC32     chainage
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_11:
+   \   00000000   0x40590000         DC32     0x40590000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_12:
+   \   00000000   0x........         DC32     g_nMotorPulseSigma
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_13:
+   \   00000000   0x........         DC32     tmp_buf
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_14:
+   \   00000000   0x........         DC32     UpBuf1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_15:
+   \   00000000   0x........         DC32     UpBuf1_pre
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_16:
+   \   00000000   0x........         DC32     avr_count
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_17:
+   \   00000000   0x........         DC32     off_y
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_18:
+   \   00000000   0x........         DC32     YMin
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_19:
+   \   00000000   0x........         DC32     YMax
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_20:
+   \   00000000   0x........         DC32     OFF_Y
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_21:
+   \   00000000   0x........         DC32     YBack
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_22:
+   \   00000000   0x........         DC32     BufBegin
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_23:
+   \   00000000   0x4006D000         DC32     0x4006d000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_24:
+   \   00000000   0x........         DC32     PwmDuty
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_25:
+   \   00000000   0x400FF100         DC32     0x400ff100
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_26:
+   \   00000000   0x400FF040         DC32     0x400ff040
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_27:
+   \   00000000   0x400FF080         DC32     0x400ff080
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_28:
+   \   00000000   0x3E99999A         DC32     0x3e99999a
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_29:
+   \   00000000   0x3D4CCCCD         DC32     0x3d4ccccd
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_30:
+   \   00000000   0x3FD9999A         DC32     0x3fd9999a
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_31:
+   \   00000000   0x40048038         DC32     0x40048038
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_32:
+   \   00000000   0x4004A024         DC32     0x4004a024
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_33:
+   \   00000000   0x400FF054         DC32     0x400ff054
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_34:
+   \   00000000   0x40039000         DC32     0x40039000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_35:
+   \   00000000   0x00090100         DC32     0x90100
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_36:
+   \   00000000   0x4004A004         DC32     0x4004a004
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_37:
+   \   00000000   0x4004A0C0         DC32     0x4004a0c0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_38:
+   \   00000000   0x4004A0C8         DC32     0x4004a0c8
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_39:
+   \   00000000   0x4004D060         DC32     0x4004d060
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_40:
+   \   00000000   0x400FF114         DC32     0x400ff114
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_41:
+   \   00000000   0x4004D0C0         DC32     0x4004d0c0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_42:
+   \   00000000   0x4004D0C8         DC32     0x4004d0c8
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_43:
+   \   00000000   0x........         DC32     periph_clk_khz
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_44:
+   \   00000000   0x........         DC32     `?<Constant "SSrt:1">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_45:
+   \   00000000   0x........         DC32     `?<Constant "PBack:5">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_46:
+   \   00000000   0x........         DC32     `?<Constant "SBack1:2">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_47:
+   \   00000000   0x........         DC32     `?<Constant "SSop:3">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_48:
+   \   00000000   0x........         DC32     `?<Constant "SBack2:4">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_49:
+   \   00000000   0x........         DC32     key_no
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_50:
+   \   00000000   0x........         DC32     BK
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_51:
+   \   00000000   0x........         DC32     `?<Constant "SSrt:">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_52:
+   \   00000000   0x........         DC32     SecStart
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_53:
+   \   00000000   0x........         DC32     `?<Constant "Key7">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_54:
+   \   00000000   0x........         DC32     `?<Constant "Key8">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_55:
+   \   00000000   0x........         DC32     `?<Constant "Key9">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_56:
+   \   00000000   0x........         DC32     key_num
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_57:
+   \   00000000   0x........         DC32     `?<Constant "SBack1:">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_58:
+   \   00000000   0x........         DC32     SecBack1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_59:
+   \   00000000   0x........         DC32     `?<Constant "Key4">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_60:
+   \   00000000   0x........         DC32     `?<Constant "Key5">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_61:
+   \   00000000   0x........         DC32     `?<Constant "Key6">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_62:
+   \   00000000   0x........         DC32     `?<Constant "SSop:">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_63:
+   \   00000000   0x........         DC32     SecStop
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_64:
+   \   00000000   0x........         DC32     `?<Constant "SBack2:">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_65:
+   \   00000000   0x........         DC32     SecBack2
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_66:
+   \   00000000   0x........         DC32     `?<Constant "PBack:">`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_67:
+   \   00000000   0x........         DC32     PwmBack
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "nrf24l01 err">`:
+   \   00000000   0x6E 0x72          DC8 "nrf24l01 err"
+   \              0x66 0x32    
+   \              0x34 0x6C    
+   \              0x30 0x31    
+   \              0x20 0x65    
+   \              0x72 0x72    
+   \              0x00         
+   \   0000000D   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "nrf24l01 ok">`:
+   \   00000000   0x6E 0x72          DC8 "nrf24l01 ok"
+   \              0x66 0x32    
+   \              0x34 0x6C    
+   \              0x30 0x31    
+   \              0x20 0x6F    
+   \              0x6B 0x00    
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x42 0x3A          DC8 "B:"
+   \              0x00         
+   \   00000003   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x45 0x3A          DC8 "E:"
+   \              0x00         
+   \   00000003   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "Sok:">`:
+   \   00000000   0x53 0x6F          DC8 "Sok:"
+   \              0x6B 0x3A    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "fir:">`:
+   \   00000000   0x66 0x69          DC8 "fir:"
+   \              0x72 0x3A    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x42 0x56          DC8 "BV:"
+   \              0x3A 0x00    
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x43 0x3A          DC8 "C:"
+   \              0x00         
+   \   00000003   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x78 0x2B          DC8 "x+"
+   \              0x00         
+   \   00000003   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x78 0x2D          DC8 "x-"
+   \              0x00         
+   \   00000003   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x44 0x3A          DC8 "D:-"
+   \              0x2D 0x00    
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x44 0x3A          DC8 "D:+"
+   \              0x2B 0x00    
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x50 0x3A          DC8 "P:+"
+   \              0x2B 0x00    
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x50 0x3A          DC8 "P:-"
+   \              0x2D 0x00    
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SSrt:1">`:
+   \   00000000   0x53 0x53          DC8 "SSrt:1"
+   \              0x72 0x74    
+   \              0x3A 0x31    
+   \              0x00         
+   \   00000007   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "PBack:5">`:
+   \   00000000   0x50 0x42          DC8 "PBack:5"
+   \              0x61 0x63    
+   \              0x6B 0x3A    
+   \              0x35 0x00    
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SBack1:2">`:
+   \   00000000   0x53 0x42          DC8 "SBack1:2"
+   \              0x61 0x63    
+   \              0x6B 0x31    
+   \              0x3A 0x32    
+   \              0x00         
+   \   00000009   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SSop:3">`:
+   \   00000000   0x53 0x53          DC8 "SSop:3"
+   \              0x6F 0x70    
+   \              0x3A 0x33    
+   \              0x00         
+   \   00000007   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SBack2:4">`:
+   \   00000000   0x53 0x42          DC8 "SBack2:4"
+   \              0x61 0x63    
+   \              0x6B 0x32    
+   \              0x3A 0x34    
+   \              0x00         
+   \   00000009   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SSrt:">`:
+   \   00000000   0x53 0x53          DC8 "SSrt:"
+   \              0x72 0x74    
+   \              0x3A 0x00    
+   \   00000006   0x00 0x00          DC8 0, 0
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x2B 0x3A          DC8 "+:"
+   \              0x00         
+   \   00000003   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "Key7">`:
+   \   00000000   0x4B 0x65          DC8 "Key7"
+   \              0x79 0x37    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x2D 0x3A          DC8 "-:"
+   \              0x00         
+   \   00000003   0x00               DC8 0
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "Key8">`:
+   \   00000000   0x4B 0x65          DC8 "Key8"
+   \              0x79 0x38    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \   00000000   0x52 0x65          DC8 "Re:"
+   \              0x3A 0x00    
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "Key9">`:
+   \   00000000   0x4B 0x65          DC8 "Key9"
+   \              0x79 0x39    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SBack1:">`:
+   \   00000000   0x53 0x42          DC8 "SBack1:"
+   \              0x61 0x63    
+   \              0x6B 0x31    
+   \              0x3A 0x00    
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "Key4">`:
+   \   00000000   0x4B 0x65          DC8 "Key4"
+   \              0x79 0x34    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "Key5">`:
+   \   00000000   0x4B 0x65          DC8 "Key5"
+   \              0x79 0x35    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "Key6">`:
+   \   00000000   0x4B 0x65          DC8 "Key6"
+   \              0x79 0x36    
+   \              0x00         
+   \   00000005   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SSop:">`:
+   \   00000000   0x53 0x53          DC8 "SSop:"
+   \              0x6F 0x70    
+   \              0x3A 0x00    
+   \   00000006   0x00 0x00          DC8 0, 0
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "SBack2:">`:
+   \   00000000   0x53 0x42          DC8 "SBack2:"
+   \              0x61 0x63    
+   \              0x6B 0x32    
+   \              0x3A 0x00    
+
+   \                                 In section .rodata, align 4
+   \                     `?<Constant "PBack:">`:
+   \   00000000   0x50 0x42          DC8 "PBack:"
+   \              0x61 0x63    
+   \              0x6B 0x3A    
+   \              0x00         
+   \   00000007   0x00               DC8 0
+    688          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   AdjustPara
+         8   -> LCD_CLS
+         8   -> LCD_P8x16Str
+         8   -> LCD_P8x16_number_4
+         8   -> delay_ms
+         8   -> keyboard_scan
+         8   -> matrix_keyboard_init
+       8   main
+         8   -> Car_Control_PWM
+         8   -> Command_analy
+         8   -> LCD_CLS
+         8   -> LCD_P8x16Str
+         8   -> LCD_P8x16_number
+         8   -> LCD_P8x16_number_4
+         8   -> LCD_P8x16_number_5
+         8   -> NRF24L01_Check
+         8   -> NRF24L01_RX_Mode
+         8   -> NRF24L01_RxPacket
+         8   -> __aeabi_cdcmple
+         8   -> __aeabi_cdrcmple
+         8   -> __aeabi_d2iz
+         8   -> __aeabi_dmul
+         8   -> delay_ms
+         8   -> disable_irq
+         8   -> serial_choose
+         8   -> system_init
+         8   -> uart_send1
+       8   system_init
+         8   -> FTM2_QUAD_Iint
+         8   -> FTM_PWM_Init
+         8   -> FTM_PWM_Open
+         8   -> LCD_Init
+         8   -> PID_SetKpid
+         8   -> PID_SetPoint
+         8   -> enable_irq
+         8   -> enable_pit_interrupt
+         8   -> enableuartreint
+         8   -> gpio_ctrl
+         8   -> gpio_init
+         8   -> hw_adc_init
+         8   -> hw_pit_init
+         8   -> init_nrf24l01_io
+         8   -> set_irq_priority
+         8   -> uart_init
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ?<Constant "+:">
+       4  ?<Constant "-:">
+       4  ?<Constant "B:">
+       4  ?<Constant "BV:">
+       4  ?<Constant "C:">
+       4  ?<Constant "D:+">
+       4  ?<Constant "D:-">
+       4  ?<Constant "E:">
+       8  ?<Constant "Key4">
+       8  ?<Constant "Key5">
+       8  ?<Constant "Key6">
+       8  ?<Constant "Key7">
+       8  ?<Constant "Key8">
+       8  ?<Constant "Key9">
+       4  ?<Constant "P:+">
+       4  ?<Constant "P:-">
+       8  ?<Constant "PBack:">
+       8  ?<Constant "PBack:5">
+       4  ?<Constant "Re:">
+       8  ?<Constant "SBack1:">
+      12  ?<Constant "SBack1:2">
+       8  ?<Constant "SBack2:">
+      12  ?<Constant "SBack2:4">
+       8  ?<Constant "SSop:">
+       8  ?<Constant "SSop:3">
+       8  ?<Constant "SSrt:">
+       8  ?<Constant "SSrt:1">
+       8  ?<Constant "Sok:">
+       8  ?<Constant "fir:">
+      16  ?<Constant "nrf24l01 err">
+      12  ?<Constant "nrf24l01 ok">
+       4  ?<Constant "x+">
+       4  ?<Constant "x-">
+       4  ??DataTable0
+       4  ??DataTable0_1
+       4  ??DataTable0_2
+       4  ??DataTable0_3
+       4  ??DataTable0_4
+       4  ??DataTable1
+       4  ??DataTable1_1
+       4  ??DataTable1_10
+       4  ??DataTable1_11
+       4  ??DataTable1_12
+       4  ??DataTable1_13
+       4  ??DataTable1_14
+       4  ??DataTable1_15
+       4  ??DataTable1_16
+       4  ??DataTable1_17
+       4  ??DataTable1_18
+       4  ??DataTable1_2
+       4  ??DataTable1_3
+       4  ??DataTable1_4
+       4  ??DataTable1_5
+       4  ??DataTable1_6
+       4  ??DataTable1_7
+       4  ??DataTable1_8
+       4  ??DataTable1_9
+       4  ??DataTable2
+       4  ??DataTable2_1
+       4  ??DataTable2_10
+       4  ??DataTable2_11
+       4  ??DataTable2_12
+       4  ??DataTable2_13
+       4  ??DataTable2_14
+       4  ??DataTable2_15
+       4  ??DataTable2_16
+       4  ??DataTable2_17
+       4  ??DataTable2_18
+       4  ??DataTable2_19
+       4  ??DataTable2_2
+       4  ??DataTable2_20
+       4  ??DataTable2_21
+       4  ??DataTable2_22
+       4  ??DataTable2_23
+       4  ??DataTable2_24
+       4  ??DataTable2_25
+       4  ??DataTable2_26
+       4  ??DataTable2_27
+       4  ??DataTable2_28
+       4  ??DataTable2_29
+       4  ??DataTable2_3
+       4  ??DataTable2_30
+       4  ??DataTable2_31
+       4  ??DataTable2_32
+       4  ??DataTable2_33
+       4  ??DataTable2_34
+       4  ??DataTable2_35
+       4  ??DataTable2_36
+       4  ??DataTable2_37
+       4  ??DataTable2_38
+       4  ??DataTable2_39
+       4  ??DataTable2_4
+       4  ??DataTable2_40
+       4  ??DataTable2_41
+       4  ??DataTable2_42
+       4  ??DataTable2_43
+       4  ??DataTable2_44
+       4  ??DataTable2_45
+       4  ??DataTable2_46
+       4  ??DataTable2_47
+       4  ??DataTable2_48
+       4  ??DataTable2_49
+       4  ??DataTable2_5
+       4  ??DataTable2_50
+       4  ??DataTable2_51
+       4  ??DataTable2_52
+       4  ??DataTable2_53
+       4  ??DataTable2_54
+       4  ??DataTable2_55
+       4  ??DataTable2_56
+       4  ??DataTable2_57
+       4  ??DataTable2_58
+       4  ??DataTable2_59
+       4  ??DataTable2_6
+       4  ??DataTable2_60
+       4  ??DataTable2_61
+       4  ??DataTable2_62
+       4  ??DataTable2_63
+       4  ??DataTable2_64
+       4  ??DataTable2_65
+       4  ??DataTable2_66
+       4  ??DataTable2_67
+       4  ??DataTable2_7
+       4  ??DataTable2_8
+       4  ??DataTable2_9
+    1358  AdjustPara
+       2  Aver1
+       2  Aver2
+       2  Aver3
+       1  Aver8_1
+       1  Aver8_2
+       1  Aver8_3
+       1  BK
+       2  Cnt
+       2  End
+       2  Mid1
+       2  Mid2
+       4  OFF_Y
+       4  PIT1_CurrentVAL0
+       4  PIT1_CurrentVAL1
+       1  TmpPre
+    2000  Up
+       2  UpBuf
+       1  UpBuf1
+       1  UpBuf1_pre
+       1  UpCnt
+       4  YBack
+       4  YMax
+       4  YMin
+       1  avr_count
+       1  first
+       1  key_no
+       1  key_num
+    1528  main
+     464  system_init
+       1  temp
+      36  tmp_buf
+       1  tmp_buf_cn
+
+ 
+ 2 087 bytes in section .bss
+     3 bytes in section .data
+   232 bytes in section .rodata
+ 3 718 bytes in section .text
+ 
+ 3 718 bytes of CODE  memory
+   232 bytes of CONST memory
+ 2 090 bytes of DATA  memory
+
+Errors: none
+Warnings: none

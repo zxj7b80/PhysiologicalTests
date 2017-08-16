@@ -1,0 +1,482 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.10.1.6676/W32 for ARM        08/Apr/2015  15:15:26
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\src\Sources\C\Component_C\MMA8451.c
+#    Command line =  
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\src\Sources\C\Component_C\MMA8451.c
+#        -D IAR -D TWR_K60N512 -lCN
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\bin\Flash\List\ -lB
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\bin\Flash\List\ -o
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\bin\Flash\Obj\
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa
+#        --no_clustering --no_scheduling --debug --endian=little
+#        --cpu=Cortex-M4 -e --fpu=None --dlib_config "D:\MyProgramFiles\iar for
+#        arm v7.1\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\src\Sources\H\ -I
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\src\Sources\H\Component_H\
+#        -I
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\src\Sources\H\Frame_H\
+#        -Ol --use_c++_inline
+#    List file    =  
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\bin\Flash\List\MMA8451.lst
+#    Object file  =  
+#        C:\Users\Administrator\Desktop\PhysiologicalTests\bin\Flash\Obj\MMA8451.o
+#
+###############################################################################
+
+C:\Users\Administrator\Desktop\PhysiologicalTests\src\Sources\C\Component_C\MMA8451.c
+      1          #include"includes.h"
+      2          //#include"MMA8451.h"
+      3          
+
+   \                                 In section .bss, align 4
+      4          uint8   BUF[8];
+   \                     BUF:
+   \   00000000                      DS8 8
+
+   \                                 In section .bss, align 1
+      5          uint8   CY;
+   \                     CY:
+   \   00000000                      DS8 1
+      6          
+
+   \                                 In section .text, align 2, keep-with-next
+      7          void MMA8452_Start()
+      8          {
+   \                     MMA8452_Start: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+      9              SDA_SET();                  
+   \   00000002   0x2201             MOVS     R2,#+1
+   \   00000004   0x2106             MOVS     R1,#+6
+   \   00000006   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000008   0x.... 0x....      BL       gpio_ctrl
+     10              SCL_SET();                    
+   \   0000000C   0x2201             MOVS     R2,#+1
+   \   0000000E   0x2104             MOVS     R1,#+4
+   \   00000010   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000012   0x.... 0x....      BL       gpio_ctrl
+     11              Delay5us();                 
+   \   00000016   0x.... 0x....      BL       Delay5us
+     12              SDA_CLR();                  
+   \   0000001A   0x2200             MOVS     R2,#+0
+   \   0000001C   0x2106             MOVS     R1,#+6
+   \   0000001E   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000020   0x.... 0x....      BL       gpio_ctrl
+     13              Delay5us();                 
+   \   00000024   0x.... 0x....      BL       Delay5us
+     14              SCL_CLR();                    
+   \   00000028   0x2200             MOVS     R2,#+0
+   \   0000002A   0x2104             MOVS     R1,#+4
+   \   0000002C   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   0000002E   0x.... 0x....      BL       gpio_ctrl
+     15          }
+   \   00000032   0xBD01             POP      {R0,PC}          ;; return
+     16          
+
+   \                                 In section .text, align 2, keep-with-next
+     17          void MMA8452_Stop()
+     18          {
+   \                     MMA8452_Stop: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+     19              SDA_CLR();                    
+   \   00000002   0x2200             MOVS     R2,#+0
+   \   00000004   0x2106             MOVS     R1,#+6
+   \   00000006   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000008   0x.... 0x....      BL       gpio_ctrl
+     20              SCL_SET();                    
+   \   0000000C   0x2201             MOVS     R2,#+1
+   \   0000000E   0x2104             MOVS     R1,#+4
+   \   00000010   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000012   0x.... 0x....      BL       gpio_ctrl
+     21              Delay5us();                 
+   \   00000016   0x.... 0x....      BL       Delay5us
+     22              SDA_SET();                    
+   \   0000001A   0x2201             MOVS     R2,#+1
+   \   0000001C   0x2106             MOVS     R1,#+6
+   \   0000001E   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000020   0x.... 0x....      BL       gpio_ctrl
+     23              Delay5us();                 
+   \   00000024   0x.... 0x....      BL       Delay5us
+     24          }
+   \   00000028   0xBD01             POP      {R0,PC}          ;; return
+     25          
+
+   \                                 In section .text, align 2, keep-with-next
+     26          void MMA8452_SendACK(uint8 ack)
+     27          {
+   \                     MMA8452_SendACK: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+     28              gpio_ctrl(PORTC,6,ack);             
+   \   00000002   0xB2C0             UXTB     R0,R0            ;; ZeroExt  R0,R0,#+24,#+24
+   \   00000004   0x0002             MOVS     R2,R0
+   \   00000006   0x2106             MOVS     R1,#+6
+   \   00000008   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   0000000A   0x.... 0x....      BL       gpio_ctrl
+     29              SCL_SET();                    
+   \   0000000E   0x2201             MOVS     R2,#+1
+   \   00000010   0x2104             MOVS     R1,#+4
+   \   00000012   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000014   0x.... 0x....      BL       gpio_ctrl
+     30              Delay5us();                 
+   \   00000018   0x.... 0x....      BL       Delay5us
+     31              SCL_CLR();                    
+   \   0000001C   0x2200             MOVS     R2,#+0
+   \   0000001E   0x2104             MOVS     R1,#+4
+   \   00000020   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000022   0x.... 0x....      BL       gpio_ctrl
+     32              Delay5us();                
+   \   00000026   0x.... 0x....      BL       Delay5us
+     33          }
+   \   0000002A   0xBD01             POP      {R0,PC}          ;; return
+     34          
+
+   \                                 In section .text, align 2, keep-with-next
+     35          uint8 MMA8452_RecvACK()
+     36          {
+   \                     MMA8452_RecvACK: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+     37              SCL_SET();                    
+   \   00000002   0x2201             MOVS     R2,#+1
+   \   00000004   0x2104             MOVS     R1,#+4
+   \   00000006   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000008   0x.... 0x....      BL       gpio_ctrl
+     38              Delay5us();                 
+   \   0000000C   0x.... 0x....      BL       Delay5us
+     39              CY=gpio_read(PORTC,6);               
+   \   00000010   0x2106             MOVS     R1,#+6
+   \   00000012   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000014   0x.... 0x....      BL       gpio_read
+   \   00000018   0x....             LDR.N    R1,??DataTable6_1
+   \   0000001A   0x7008             STRB     R0,[R1, #+0]
+     40              SCL_CLR();                  
+   \   0000001C   0x2200             MOVS     R2,#+0
+   \   0000001E   0x2104             MOVS     R1,#+4
+   \   00000020   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000022   0x.... 0x....      BL       gpio_ctrl
+     41              Delay5us();                 
+   \   00000026   0x.... 0x....      BL       Delay5us
+     42          
+     43              return CY;
+   \   0000002A   0x....             LDR.N    R0,??DataTable6_1
+   \   0000002C   0x7800             LDRB     R0,[R0, #+0]
+   \   0000002E   0xBD02             POP      {R1,PC}          ;; return
+     44          }
+     45          
+     46          
+
+   \                                 In section .text, align 2, keep-with-next
+     47          void MMA8452_SendByte(uint8 dat)
+     48          {
+   \                     MMA8452_SendByte: (+1)
+   \   00000000   0xB570             PUSH     {R4-R6,LR}
+   \   00000002   0x0004             MOVS     R4,R0
+     49              uint8 i;
+     50              uint8 DAT;
+     51              
+     52              DAT=dat;
+   \   00000004   0x0026             MOVS     R6,R4
+     53              
+     54              for (i=0; i<8; i++)         
+   \   00000006   0x2500             MOVS     R5,#+0
+   \   00000008   0xE014             B.N      ??MMA8452_SendByte_0
+     55              {
+     56                  dat&=(1<<(7-i));
+     57                  if(dat==0) SDA_CLR();
+     58                  else SDA_SET();
+   \                     ??MMA8452_SendByte_1: (+1)
+   \   0000000A   0x2201             MOVS     R2,#+1
+   \   0000000C   0x2106             MOVS     R1,#+6
+   \   0000000E   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000010   0x.... 0x....      BL       gpio_ctrl
+     59                  
+     60                  dat=DAT;
+   \                     ??MMA8452_SendByte_2: (+1)
+   \   00000014   0x0034             MOVS     R4,R6
+     61                  
+     62                  SCL_SET();                
+   \   00000016   0x2201             MOVS     R2,#+1
+   \   00000018   0x2104             MOVS     R1,#+4
+   \   0000001A   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   0000001C   0x.... 0x....      BL       gpio_ctrl
+     63                  Delay5us();             
+   \   00000020   0x.... 0x....      BL       Delay5us
+     64                  SCL_CLR();               
+   \   00000024   0x2200             MOVS     R2,#+0
+   \   00000026   0x2104             MOVS     R1,#+4
+   \   00000028   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   0000002A   0x.... 0x....      BL       gpio_ctrl
+     65                  Delay5us();            
+   \   0000002E   0x.... 0x....      BL       Delay5us
+   \   00000032   0x1C6D             ADDS     R5,R5,#+1
+   \                     ??MMA8452_SendByte_0: (+1)
+   \   00000034   0xB2ED             UXTB     R5,R5            ;; ZeroExt  R5,R5,#+24,#+24
+   \   00000036   0x2D08             CMP      R5,#+8
+   \   00000038   0xDA0D             BGE.N    ??MMA8452_SendByte_3
+   \   0000003A   0x2001             MOVS     R0,#+1
+   \   0000003C   0xF1D5 0x0107      RSBS     R1,R5,#+7
+   \   00000040   0x4088             LSLS     R0,R0,R1
+   \   00000042   0x4004             ANDS     R4,R0,R4
+   \   00000044   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   00000046   0x2C00             CMP      R4,#+0
+   \   00000048   0xD1DF             BNE.N    ??MMA8452_SendByte_1
+   \   0000004A   0x2200             MOVS     R2,#+0
+   \   0000004C   0x2106             MOVS     R1,#+6
+   \   0000004E   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000050   0x.... 0x....      BL       gpio_ctrl
+   \   00000054   0xE7DE             B.N      ??MMA8452_SendByte_2
+     66              }
+     67              MMA8452_RecvACK();
+   \                     ??MMA8452_SendByte_3: (+1)
+   \   00000056   0x.... 0x....      BL       MMA8452_RecvACK
+     68          }
+   \   0000005A   0xBD70             POP      {R4-R6,PC}       ;; return
+     69          
+     70          
+
+   \                                 In section .text, align 2, keep-with-next
+     71          uint8 MMA8452_RecvByte()
+     72          {
+   \                     MMA8452_RecvByte: (+1)
+   \   00000000   0xB538             PUSH     {R3-R5,LR}
+     73              uint8 i;
+     74              uint8 dat = 0;
+   \   00000002   0x2500             MOVS     R5,#+0
+     75          
+     76              SDA_SET();                    
+   \   00000004   0x2201             MOVS     R2,#+1
+   \   00000006   0x2106             MOVS     R1,#+6
+   \   00000008   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   0000000A   0x.... 0x....      BL       gpio_ctrl
+     77              for (i=0; i<8; i++)         
+   \   0000000E   0x2400             MOVS     R4,#+0
+   \   00000010   0xE014             B.N      ??MMA8452_RecvByte_0
+     78              {
+     79                  dat <<= 1;
+   \                     ??MMA8452_RecvByte_1: (+1)
+   \   00000012   0x006D             LSLS     R5,R5,#+1
+     80                  SCL_SET();               
+   \   00000014   0x2201             MOVS     R2,#+1
+   \   00000016   0x2104             MOVS     R1,#+4
+   \   00000018   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   0000001A   0x.... 0x....      BL       gpio_ctrl
+     81                  Delay5us();             
+   \   0000001E   0x.... 0x....      BL       Delay5us
+     82                  dat |= gpio_read(PORTC,6);                       
+   \   00000022   0x2106             MOVS     R1,#+6
+   \   00000024   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000026   0x.... 0x....      BL       gpio_read
+   \   0000002A   0x4305             ORRS     R5,R0,R5
+     83                  SCL_CLR();               
+   \   0000002C   0x2200             MOVS     R2,#+0
+   \   0000002E   0x2104             MOVS     R1,#+4
+   \   00000030   0x....             LDR.N    R0,??DataTable6  ;; 0x400ff080
+   \   00000032   0x.... 0x....      BL       gpio_ctrl
+     84                  Delay5us();             
+   \   00000036   0x.... 0x....      BL       Delay5us
+     85              }
+   \   0000003A   0x1C64             ADDS     R4,R4,#+1
+   \                     ??MMA8452_RecvByte_0: (+1)
+   \   0000003C   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   0000003E   0x2C08             CMP      R4,#+8
+   \   00000040   0xDBE7             BLT.N    ??MMA8452_RecvByte_1
+     86              return dat;
+   \   00000042   0x0028             MOVS     R0,R5
+   \   00000044   0xB2C0             UXTB     R0,R0            ;; ZeroExt  R0,R0,#+24,#+24
+   \   00000046   0xBD32             POP      {R1,R4,R5,PC}    ;; return
+     87          }
+     88          
+
+   \                                 In section .text, align 2, keep-with-next
+     89          void Single_Write_MMA8452(uint8 REG_Address,uint8 REG_data)
+     90          {
+   \                     Single_Write_MMA8452: (+1)
+   \   00000000   0xB538             PUSH     {R3-R5,LR}
+   \   00000002   0x0004             MOVS     R4,R0
+   \   00000004   0x000D             MOVS     R5,R1
+     91              MMA8452_Start();                  
+   \   00000006   0x.... 0x....      BL       MMA8452_Start
+     92              MMA8452_SendByte(SlaveAddress);  
+   \   0000000A   0x2038             MOVS     R0,#+56
+   \   0000000C   0x.... 0x....      BL       MMA8452_SendByte
+     93              MMA8452_SendByte(REG_Address);    
+   \   00000010   0x0020             MOVS     R0,R4
+   \   00000012   0xB2C0             UXTB     R0,R0            ;; ZeroExt  R0,R0,#+24,#+24
+   \   00000014   0x.... 0x....      BL       MMA8452_SendByte
+     94              MMA8452_SendByte(REG_data);      
+   \   00000018   0x0028             MOVS     R0,R5
+   \   0000001A   0xB2C0             UXTB     R0,R0            ;; ZeroExt  R0,R0,#+24,#+24
+   \   0000001C   0x.... 0x....      BL       MMA8452_SendByte
+     95              MMA8452_Stop();                   
+   \   00000020   0x.... 0x....      BL       MMA8452_Stop
+     96          }
+   \   00000024   0xBD31             POP      {R0,R4,R5,PC}    ;; return
+     97          
+
+   \                                 In section .text, align 2, keep-with-next
+     98          void Multiple_Read_MMA8452(void)
+     99          {   
+   \                     Multiple_Read_MMA8452: (+1)
+   \   00000000   0xB510             PUSH     {R4,LR}
+    100              uint8 i;
+    101              MMA8452_Start();                          
+   \   00000002   0x.... 0x....      BL       MMA8452_Start
+    102              MMA8452_SendByte(SlaveAddress);           
+   \   00000006   0x2038             MOVS     R0,#+56
+   \   00000008   0x.... 0x....      BL       MMA8452_SendByte
+    103              MMA8452_SendByte(0x01);                   
+   \   0000000C   0x2001             MOVS     R0,#+1
+   \   0000000E   0x.... 0x....      BL       MMA8452_SendByte
+    104              MMA8452_Start();                          
+   \   00000012   0x.... 0x....      BL       MMA8452_Start
+    105              MMA8452_SendByte(SlaveAddress+1);         
+   \   00000016   0x2039             MOVS     R0,#+57
+   \   00000018   0x.... 0x....      BL       MMA8452_SendByte
+    106              for (i=0; i<6; i++)                       
+   \   0000001C   0x2400             MOVS     R4,#+0
+   \   0000001E   0xE003             B.N      ??Multiple_Read_MMA8452_0
+    107              {
+    108                  BUF[i] = MMA8452_RecvByte();          
+    109                  if (i == 5)
+    110                  {
+    111                    MMA8452_SendACK(1);                
+    112                  }
+    113                  else
+    114                  {
+    115                    MMA8452_SendACK(0);                
+   \                     ??Multiple_Read_MMA8452_1: (+1)
+   \   00000020   0x2000             MOVS     R0,#+0
+   \   00000022   0x.... 0x....      BL       MMA8452_SendACK
+    116                  }
+   \                     ??Multiple_Read_MMA8452_2: (+1)
+   \   00000026   0x1C64             ADDS     R4,R4,#+1
+   \                     ??Multiple_Read_MMA8452_0: (+1)
+   \   00000028   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   0000002A   0x2C06             CMP      R4,#+6
+   \   0000002C   0xDA0B             BGE.N    ??Multiple_Read_MMA8452_3
+   \   0000002E   0x.... 0x....      BL       MMA8452_RecvByte
+   \   00000032   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   00000034   0x....             LDR.N    R1,??DataTable6_2
+   \   00000036   0x5460             STRB     R0,[R4, R1]
+   \   00000038   0xB2E4             UXTB     R4,R4            ;; ZeroExt  R4,R4,#+24,#+24
+   \   0000003A   0x2C05             CMP      R4,#+5
+   \   0000003C   0xD1F0             BNE.N    ??Multiple_Read_MMA8452_1
+   \   0000003E   0x2001             MOVS     R0,#+1
+   \   00000040   0x.... 0x....      BL       MMA8452_SendACK
+   \   00000044   0xE7EF             B.N      ??Multiple_Read_MMA8452_2
+    117              }
+    118              MMA8452_Stop();                           
+   \                     ??Multiple_Read_MMA8452_3: (+1)
+   \   00000046   0x.... 0x....      BL       MMA8452_Stop
+    119              Delay5us();
+   \   0000004A   0x.... 0x....      BL       Delay5us
+    120              Delay5us();
+   \   0000004E   0x.... 0x....      BL       Delay5us
+    121              Delay5us();
+   \   00000052   0x.... 0x....      BL       Delay5us
+    122              Delay5us();
+   \   00000056   0x.... 0x....      BL       Delay5us
+    123          }
+   \   0000005A   0xBD10             POP      {R4,PC}          ;; return
+    124          
+
+   \                                 In section .text, align 2, keep-with-next
+    125          void Init_MMA8452()
+    126          {
+   \                     Init_MMA8452: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+    127             Single_Write_MMA8452(0x2A,0x01);  
+   \   00000002   0x2101             MOVS     R1,#+1
+   \   00000004   0x202A             MOVS     R0,#+42
+   \   00000006   0x.... 0x....      BL       Single_Write_MMA8452
+    128             Single_Write_MMA8452(0x2B,0x02);  
+   \   0000000A   0x2102             MOVS     R1,#+2
+   \   0000000C   0x202B             MOVS     R0,#+43
+   \   0000000E   0x.... 0x....      BL       Single_Write_MMA8452
+    129          }
+   \   00000012   0xBD01             POP      {R0,PC}          ;; return
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   0x400FF080         DC32     0x400ff080
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable6_1:
+   \   00000000   0x........         DC32     CY
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable6_2:
+   \   00000000   0x........         DC32     BUF
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   Init_MMA8452
+         8   -> Single_Write_MMA8452
+       8   MMA8452_RecvACK
+         8   -> Delay5us
+         8   -> gpio_ctrl
+         8   -> gpio_read
+      16   MMA8452_RecvByte
+        16   -> Delay5us
+        16   -> gpio_ctrl
+        16   -> gpio_read
+       8   MMA8452_SendACK
+         8   -> Delay5us
+         8   -> gpio_ctrl
+      16   MMA8452_SendByte
+        16   -> Delay5us
+        16   -> MMA8452_RecvACK
+        16   -> gpio_ctrl
+       8   MMA8452_Start
+         8   -> Delay5us
+         8   -> gpio_ctrl
+       8   MMA8452_Stop
+         8   -> Delay5us
+         8   -> gpio_ctrl
+       8   Multiple_Read_MMA8452
+         8   -> Delay5us
+         8   -> MMA8452_RecvByte
+         8   -> MMA8452_SendACK
+         8   -> MMA8452_SendByte
+         8   -> MMA8452_Start
+         8   -> MMA8452_Stop
+      16   Single_Write_MMA8452
+        16   -> MMA8452_SendByte
+        16   -> MMA8452_Start
+        16   -> MMA8452_Stop
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable6
+       4  ??DataTable6_1
+       4  ??DataTable6_2
+       8  BUF
+       1  CY
+      20  Init_MMA8452
+      48  MMA8452_RecvACK
+      72  MMA8452_RecvByte
+      44  MMA8452_SendACK
+      92  MMA8452_SendByte
+      52  MMA8452_Start
+      42  MMA8452_Stop
+      92  Multiple_Read_MMA8452
+      38  Single_Write_MMA8452
+
+ 
+   9 bytes in section .bss
+ 512 bytes in section .text
+ 
+ 512 bytes of CODE memory
+   9 bytes of DATA memory
+
+Errors: none
+Warnings: none

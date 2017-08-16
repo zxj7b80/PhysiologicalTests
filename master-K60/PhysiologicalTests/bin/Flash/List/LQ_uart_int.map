@@ -1,0 +1,339 @@
+###############################################################################
+#                                                                             #
+# IAR ELF Linker V6.30.4.53288/W32 for ARM              10/Feb/2015  20:33:59 #
+# Copyright 2007-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Output file  =  E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\E #
+#                    xe\LQ_uart_int.out                                       #
+#    Map file     =  E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\L #
+#                    ist\LQ_uart_int.map                                      #
+#    Command line =  E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\LQ12864.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_in #
+#                    t\bin\Flash\Obj\MMA8451.o E:\单片机\K60\K60核心板源代码\ #
+#                    03_LQ_uart_int\bin\Flash\Obj\NRF24L01.o                  #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\PID.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bi #
+#                    n\Flash\Obj\UpMonitor.o E:\单片机\K60\K60核心板源代码\03 #
+#                    _LQ_uart_int\bin\Flash\Obj\adc.o                         #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\button.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_int #
+#                    \bin\Flash\Obj\common.o E:\单片机\K60\K60核心板源代码\03 #
+#                    _LQ_uart_int\bin\Flash\Obj\control.o                     #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\crt0.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\b #
+#                    in\Flash\Obj\decoder.o E:\单片机\K60\K60核心板源代码\03_ #
+#                    LQ_uart_int\bin\Flash\Obj\delay.o                        #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\gpio.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\b #
+#                    in\Flash\Obj\i2c.o E:\单片机\K60\K60核心板源代码\03_LQ_u #
+#                    art_int\bin\Flash\Obj\isr.o                              #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\light.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\ #
+#                    bin\Flash\Obj\main.o E:\单片机\K60\K60核心板源代码\03_LQ #
+#                    _uart_int\bin\Flash\Obj\pit.o                            #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\pwm.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bi #
+#                    n\Flash\Obj\start.o E:\单片机\K60\K60核心板源代码\03_LQ_ #
+#                    uart_int\bin\Flash\Obj\sysinit.o                         #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\O #
+#                    bj\uart.o E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\b #
+#                    in\Flash\Obj\vectors.o E:\单片机\K60\K60核心板源代码\03_ #
+#                    LQ_uart_int\bin\Flash\Obj\wdog.o --redirect              #
+#                    _Printf=_PrintfFull --redirect _Scanf=_ScanfFull -o      #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\E #
+#                    xe\LQ_uart_int.out --map E:\单片机\K60\K60核心板源代码\0 #
+#                    3_LQ_uart_int\bin\Flash\List\LQ_uart_int.map --config    #
+#                    E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\src\Project #
+#                    _Settings\Link\Pflash.icf --semihosting --entry          #
+#                    __iar_program_start --vfe                                #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A1":  place at 0x00000000 { ro section .intvec };
+"A2":  place at 0x00000410 { ro section .noinit };
+"P1":  place in [from 0x00000000 to 0x00080000] { ro, block CodeRelocate };
+"P2":  place in [from 0x1fff0410 to 0x20010000] {
+          rw, block CodeRelocateRam, block CSTACK, block HEAP };
+
+  Section              Kind        Address    Size  Object
+  -------              ----        -------    ----  ------
+"A1":                                        0x410
+  .intvec              const    0x00000000   0x410  vectors.o [1]
+                              - 0x00000410   0x410
+
+"A2":                                         0x3c
+  .noinit              ro code  0x00000410    0x3c  crt0.o [1]
+                              - 0x0000044c    0x3c
+
+"P1":                                       0x1ef0
+  .rodata              const    0x0000044c   0x5f0  LQ12864.o [1]
+  .text                ro code  0x00000a3c   0x530  pwm.o [1]
+  .text                ro code  0x00000f6c   0x458  LQ12864.o [1]
+  .text                ro code  0x000013c4    0x4c  delay.o [1]
+  .text                ro code  0x00001410   0x36c  main.o [1]
+  .text                ro code  0x0000177c   0x22c  uart.o [1]
+  .text                ro code  0x000019a8   0x274  NRF24L01.o [1]
+  .text                ro code  0x00001c1c    0xb4  common.o [1]
+  .text                ro code  0x00001cd0    0xb8  pit.o [1]
+  .text                ro code  0x00001d88    0xc4  gpio.o [1]
+  Veneer               ro code  0x00001e4c     0x8  - Linker created -
+  .text                ro code  0x00001e54   0x210  sysinit.o [1]
+  .text                ro code  0x00002064    0xd8  isr.o [1]
+  .text                ro code  0x0000213c    0xb0  start.o [1]
+  .text                ro code  0x000021ec    0x38  wdog.o [1]
+  CodeRelocate                  0x00002224    0x4c  <Block>
+    Initializer bytes  ro data  0x00002224    0x4c  <for CodeRelocateRam-1>
+  .text                ro code  0x00002270    0x2c  data_init3.o [5]
+  .text                ro code  0x0000229c    0x22  zero_init3.o [5]
+  .text                ro code  0x000022be     0x2  vectors.o [1]
+  .iar.init_table      const    0x000022c0    0x10  - Linker created -
+  .text                ro code  0x000022d0    0x16  cmain.o [5]
+  .text                ro code  0x000022e6     0x4  low_level_init.o [3]
+  .text                ro code  0x000022ea     0x4  exit.o [3]
+  .text                ro code  0x000022f0     0xa  cexit.o [5]
+  .text                ro code  0x000022fc    0x14  exit.o [6]
+  .rodata              const    0x00002310    0x10  main.o [1]
+  .text                ro code  0x00002320     0xc  cstartup_M.o [5]
+  .rodata              const    0x0000232c     0x8  NRF24L01.o [1]
+  .data_init                    0x00002334     0x8  <Block>
+    Initializer bytes  ro data  0x00002334     0x8  <for .data-1>
+  .rodata              const    0x0000233c     0x0  bwt_init3c.o [5]
+                              - 0x0000233c  0x1ef0
+
+"P2", part 1 of 2:                            0x54
+  CodeRelocateRam               0x1fff0410    0x4c  <Block>
+    CodeRelocateRam-1           0x1fff0410    0x4c  <Init block>
+      .textrw          inited   0x1fff0410    0x4c  sysinit.o [1]
+  .data                         0x1fff045c     0x8  <Block>
+    .data-1                     0x1fff045c     0x8  <Init block>
+      .data            inited   0x1fff045c     0x8  NRF24L01.o [1]
+                              - 0x1fff0464    0x54
+
+"P2", part 2 of 2:                           0x13e
+  .bss                          0x1fff0464   0x13e  <Block>
+    .bss               zero     0x1fff0464    0x50  isr.o [1]
+    .bss               zero     0x1fff04b4    0x50  isr.o [1]
+    .bss               zero     0x1fff0504    0x50  isr.o [1]
+    .bss               zero     0x1fff0554     0x4  main.o [1]
+    .bss               zero     0x1fff0558     0x4  main.o [1]
+    .bss               zero     0x1fff055c     0x4  main.o [1]
+    .bss               zero     0x1fff0560    0x24  main.o [1]
+    .bss               zero     0x1fff0584     0x4  pwm.o [1]
+    .bss               zero     0x1fff0588     0x4  pwm.o [1]
+    .bss               zero     0x1fff058c     0x4  pwm.o [1]
+    .bss               zero     0x1fff0590     0x4  sysinit.o [1]
+    .bss               zero     0x1fff0594     0x4  sysinit.o [1]
+    .bss               zero     0x1fff0598     0x4  sysinit.o [1]
+    .bss               zero     0x1fff059c     0x2  isr.o [1]
+    .bss               zero     0x1fff059e     0x1  isr.o [1]
+    .bss               zero     0x1fff059f     0x1  isr.o [1]
+    .bss               zero     0x1fff05a0     0x1  isr.o [1]
+    .bss               zero     0x1fff05a1     0x1  main.o [1]
+                              - 0x1fff05a2   0x13e
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address     Size
+          -------     ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x13e:
+          0x1fff0464  0x13e
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module            ro code  rw code  ro data  rw data
+    ------            -------  -------  -------  -------
+E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\Obj: [1]
+    LQ12864.o           1 112             1 520
+    NRF24L01.o            628                16        8
+    common.o              180
+    crt0.o                 60
+    delay.o                76
+    gpio.o                196
+    isr.o                 216                        245
+    main.o                876                16       49
+    pit.o                 184
+    pwm.o               1 328                         12
+    start.o               176
+    sysinit.o             528       76       76       12
+    uart.o                556
+    vectors.o               2             1 040
+    wdog.o                 56
+    ----------------------------------------------------
+    Total:              6 174       76    2 668      326
+
+command line: [2]
+    ----------------------------------------------------
+    Total:
+
+dl7M_tln.a: [3]
+    exit.o                  4
+    low_level_init.o        4
+    ----------------------------------------------------
+    Total:                  8
+
+m7M_tl.a: [4]
+    ----------------------------------------------------
+    Total:
+
+rt7M_tl.a: [5]
+    bwt_init3c.o
+    cexit.o                10
+    cmain.o                22
+    cstartup_M.o           12
+    data_init3.o           44
+    zero_init3.o           34
+    ----------------------------------------------------
+    Total:                122
+
+shb_l.a: [6]
+    exit.o                 20
+    ----------------------------------------------------
+    Total:                 20
+
+    Gaps                    4
+    Linker created          8                16
+--------------------------------------------------------
+    Grand Total:        6 336       76    2 684      326
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                      Address   Size  Type      Object
+-----                      -------   ----  ----      ------
+.bss$$Base              0x1fff0464          --   Gb  - Linker created -
+.bss$$Limit             0x1fff05a2          --   Gb  - Linker created -
+.data$$Base             0x1fff045c          --   Gb  - Linker created -
+.data$$Limit            0x1fff0464          --   Gb  - Linker created -
+.data_init$$Base        0x00002334          --   Gb  - Linker created -
+.data_init$$Limit       0x0000233c          --   Gb  - Linker created -
+?main                   0x000022d1         Code  Gb  cmain.o [5]
+CodeRelocate$$Base      0x00002224          --   Gb  - Linker created -
+CodeRelocate$$Limit     0x00002270          --   Gb  - Linker created -
+CodeRelocateRam$$Base   0x1fff0410          --   Gb  - Linker created -
+CodeRelocateRam$$Limit  0x1fff045c          --   Gb  - Linker created -
+F8X16                   0x0000044c  0x5f0  Data  Gb  LQ12864.o [1]
+FTM_MOD0                0x1fff0584    0x4  Data  Gb  pwm.o [1]
+FTM_MOD1                0x1fff0588    0x4  Data  Gb  pwm.o [1]
+FTM_MOD2                0x1fff058c    0x4  Data  Gb  pwm.o [1]
+FTM_PWM_ChangeDuty      0x00000e63   0x9e  Code  Gb  pwm.o [1]
+FTM_PWM_Init            0x00000a3d  0x2ea  Code  Gb  pwm.o [1]
+FTM_PWM_Open            0x00000d27  0x13c  Code  Gb  pwm.o [1]
+IntCnt                  0x1fff059c    0x2  Data  Gb  isr.o [1]
+LCD_DLY_ms              0x000010cf   0x1a  Code  Gb  LQ12864.o [1]
+LCD_Fill                0x00001093   0x3c  Code  Gb  LQ12864.o [1]
+LCD_Init                0x000010e9  0x13a  Code  Gb  LQ12864.o [1]
+LCD_P8x16Str            0x000012ff   0xa8  Code  Gb  LQ12864.o [1]
+LCD_P8x16_number_4      0x00001223   0xdc  Code  Gb  LQ12864.o [1]
+LCD_Set_Pos             0x00001067   0x2c  Code  Gb  LQ12864.o [1]
+LCD_WrCmd               0x00000fed   0x7a  Code  Gb  LQ12864.o [1]
+LCD_WrDat               0x00000f6d   0x7e  Code  Gb  LQ12864.o [1]
+NRF24L01_Check          0x00001b37   0x48  Code  Gb  NRF24L01.o [1]
+NRF24L01_RX_Mode        0x00001bb3   0x56  Code  Gb  NRF24L01.o [1]
+NRF24L01_RxPacket       0x00001b7f   0x34  Code  Gb  NRF24L01.o [1]
+OFF_X                   0x1fff0554    0x4  Data  Gb  main.o [1]
+OFF_Y                   0x1fff0558    0x4  Data  Gb  main.o [1]
+OFF_Z                   0x1fff055c    0x4  Data  Gb  main.o [1]
+PC4                     0x1fff05a0    0x1  Data  Gb  isr.o [1]
+PC4_isr                 0x000020e9   0x16  Code  Gb  isr.o [1]
+RX_ADDRESS              0x1fff045c    0x8  Data  Gb  NRF24L01.o [1]
+Region$$Table$$Base     0x000022c0          --   Gb  - Linker created -
+Region$$Table$$Limit    0x000022d0          --   Gb  - Linker created -
+SPI_RW                  0x000019fb   0x46  Code  Gb  NRF24L01.o [1]
+SPI_RW_Reg              0x00001a41   0x36  Code  Gb  NRF24L01.o [1]
+SPI_Read                0x00001a77   0x32  Code  Gb  NRF24L01.o [1]
+SPI_Read_Buf            0x00001aa9   0x48  Code  Gb  NRF24L01.o [1]
+SPI_Write_Buf           0x00001af1   0x46  Code  Gb  NRF24L01.o [1]
+__BOOT_STACK_ADDRESS {Abs}
+                        0x2000fff8          --   Gb  command line/config [2]
+__VECTOR_RAM {Abs}      0x1fff0000          --   Gb  command line/config [2]
+__VECTOR_TABLE {Abs}    0x00000000          --   Gb  command line/config [2]
+__cmain                 0x000022d1         Code  Gb  cmain.o [5]
+__exit                  0x000022fd   0x14  Code  Gb  exit.o [6]
+__iar_SB                0x0000233c         Data  Gb  bwt_init3c.o [5]
+__iar_data_init3        0x00002271   0x2c  Code  Gb  data_init3.o [5]
+__iar_program_start     0x00002321         Code  Gb  cstartup_M.o [5]
+__iar_zero_init3        0x0000229d   0x22  Code  Gb  zero_init3.o [5]
+__low_level_init        0x000022e7    0x4  Code  Gb  low_level_init.o [3]
+__startup               0x00000411         Code  Gb  crt0.o [1]
+__vector_table          0x00000000  0x410  Data  Gb  vectors.o [1]
+_call_main              0x000022dd         Code  Gb  cmain.o [5]
+_exit                   0x000022f1         Code  Gb  cexit.o [5]
+_main                   0x000022e3         Code  Gb  cmain.o [5]
+avr_count               0x1fff05a1    0x1  Data  Gb  main.o [1]
+change                  0x1fff059f    0x1  Data  Gb  isr.o [1]
+common_startup          0x00002151   0x74  Code  Gb  start.o [1]
+core_clk_khz            0x1fff0590    0x4  Data  Gb  sysinit.o [1]
+core_clk_mhz            0x1fff0594    0x4  Data  Gb  sysinit.o [1]
+default_isr             0x000022bf    0x2  Code  Gb  vectors.o [1]
+delay_ms                0x000013c5   0x38  Code  Gb  delay.o [1]
+enable_irq              0x00001c23   0x90  Code  Gb  common.o [1]
+enable_pit_interrupt    0x00001d2f   0x4c  Code  Gb  pit.o [1]
+enableuartreint         0x00001995   0x14  Code  Gb  uart.o [1]
+exit                    0x000022eb    0x4  Code  Gb  exit.o [3]
+fb_clk_init             0x00001eb3   0x16  Code  Gb  sysinit.o [1]
+g_n1msEventCount        0x1fff059e    0x1  Data  Gb  isr.o [1]
+gpio_ctrl               0x00001e1d   0x22  Code  Gb  gpio.o [1]
+gpio_init               0x00001d89   0x7a  Code  Gb  gpio.o [1]
+gpio_read               0x00001e3f    0xe  Code  Gb  gpio.o [1]
+hw_pit_init             0x00001cd1   0x5e  Code  Gb  pit.o [1]
+init_nrf24l01_io        0x000019a9   0x52  Code  Gb  NRF24L01.o [1]
+main                    0x00001411  0x28e  Code  Gb  main.o [1]
+off_x                   0x1fff0464   0x50  Data  Gb  isr.o [1]
+off_y                   0x1fff04b4   0x50  Data  Gb  isr.o [1]
+off_z                   0x1fff0504   0x50  Data  Gb  isr.o [1]
+periph_clk_khz          0x1fff0598    0x4  Data  Gb  sysinit.o [1]
+pit0_isr                0x00002065   0x84  Code  Gb  isr.o [1]
+pll_init                0x00001ec9  0x15a  Code  Gb  sysinit.o [1]
+set_sys_dividers        0x1fff0411   0x4c  Code  Gb  sysinit.o [1]
+start                   0x0000213d   0x14  Code  Gb  start.o [1]
+sysinit                 0x00001e55   0x48  Code  Gb  sysinit.o [1]
+system_init             0x000016ad   0x7c  Code  Gb  main.o [1]
+tmp_buf                 0x1fff0560   0x24  Data  Gb  main.o [1]
+trace_clk_init          0x00001e9d   0x16  Code  Gb  sysinit.o [1]
+uart3_isr               0x00002101   0x1e  Code  Gb  isr.o [1]
+uart_init               0x0000177d  0x174  Code  Gb  uart.o [1]
+uart_re1                0x00001941   0x2c  Code  Gb  uart.o [1]
+uart_send1              0x0000196d    0xa  Code  Gb  uart.o [1]
+uart_sendN              0x00001977   0x1e  Code  Gb  uart.o [1]
+wdog_disable            0x000021ed   0x16  Code  Gb  wdog.o [1]
+wdog_unlock             0x00002205   0x16  Code  Gb  wdog.o [1]
+write_vtor              0x00001c1d    0x6  Code  Gb  common.o [1]
+
+
+[1] = E:\单片机\K60\K60核心板源代码\03_LQ_uart_int\bin\Flash\Obj
+[2] = command line
+[3] = dl7M_tln.a
+[4] = m7M_tl.a
+[5] = rt7M_tl.a
+[6] = shb_l.a
+
+  6 336 bytes of readonly  code memory
+     76 bytes of readwrite code memory
+  2 684 bytes of readonly  data memory
+    326 bytes of readwrite data memory
+
+Errors: none
+Warnings: none

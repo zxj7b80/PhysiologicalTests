@@ -1,0 +1,178 @@
+###############################################################################
+#                                                                             #
+# IAR ANSI C/C++ Compiler V6.10.1.52143/W32 for ARM     07/Jan/2012  00:38:37 #
+# Copyright 1999-2010 IAR Systems AB.                                         #
+#                                                                             #
+#    Cpu mode     =  thumb                                                    #
+#    Endian       =  little                                                   #
+#    Source file  =  F:\Kinetis\IARK60X256\03_LQ_uart_int\src\Sources\C\main. #
+#                    c                                                        #
+#    Command line =  F:\Kinetis\IARK60X256\03_LQ_uart_int\src\Sources\C\main. #
+#                    c -D IAR -D TWR_K60N512 -lCN                             #
+#                    F:\Kinetis\IARK60X256\03_LQ_uart_int\bin\Ram\List\ -lB   #
+#                    F:\Kinetis\IARK60X256\03_LQ_uart_int\bin\Ram\List\ -o    #
+#                    F:\Kinetis\IARK60X256\03_LQ_uart_int\bin\Ram\Obj\        #
+#                    --no_cse --no_unroll --no_inline --no_code_motion        #
+#                    --no_tbaa --no_clustering --no_scheduling --debug        #
+#                    --endian=little --cpu=Cortex-M4 -e --fpu=None            #
+#                    --dlib_config "C:\Program Files\IAR Systems\Embedded     #
+#                    Workbench 6.0\arm\INC\c\DLib_Config_Normal.h" -I         #
+#                    F:\Kinetis\IARK60X256\03_LQ_uart_int\src\Sources\H\ -I   #
+#                    F:\Kinetis\IARK60X256\03_LQ_uart_int\src\Sources\H\Compo #
+#                    nent_H\ -I F:\Kinetis\IARK60X256\03_LQ_uart_int\src\Sour #
+#                    ces\H\Frame_H\ -Ol --use_c++_inline                      #
+#    List file    =  F:\Kinetis\IARK60X256\03_LQ_uart_int\bin\Ram\List\main.l #
+#                    st                                                       #
+#    Object file  =  F:\Kinetis\IARK60X256\03_LQ_uart_int\bin\Ram\Obj\main.o  #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+F:\Kinetis\IARK60X256\03_LQ_uart_int\src\Sources\C\main.c
+      1          /********************************************************   
+      2          【平    台】龙丘K60X256多功能开发板
+      3          【编    写】龙丘
+      4          【Designed】by Chiu Sir
+      5          【E-mail  】chiusir@yahoo.cn
+      6          【软件版本】V1.0
+      7          【最后更新】2012年1月3日
+      8          【相关信息参考下列地址】
+      9          【网    站】http://www.lqist.cn
+     10          【淘宝店铺】http://shop36265907.taobao.com
+     11          ------------------------------------------------
+     12          【dev.env.】CodeWarrior 10.1/IAR
+     13          【Target  】K60X256
+     14          【Crystal 】50.000Mhz
+     15          【busclock】???.000MHz
+     16          【pllclock】100.000MHz    
+     17          ***************************
+     18          ------------------------------------
+     19            使用说明：
+     20           PTD6接串口模块的RX
+     21           PTD7接串口模块的TX 
+     22           串口波特率9600n，n，8，1
+     23           在串口调试助手窗口发送任意字符，返回相应字符加1。 
+     24            
+     25           *********************************************************/
+     26          
+     27          //头文件
+     28          #include "includes.h"
+     29          
+     30          //全局变量声明
+     31          extern int periph_clk_khz;
+     32          
+     33          //主函数
+
+   \                                 In section .text, align 4, keep-with-next
+     34          void main(void)
+     35          {
+   \                     main:
+   \   00000000   10B5               PUSH     {R4,LR}
+     36              //1 主程序使用的变量定义
+     37              uint32 runcount;		//运行计数器
+     38              
+     39              //2 关中断
+     40              DisableInterrupts;      //禁止总中断
+   \   00000002   72B6               CPSID i         
+     41              
+     42              //3 模块初始化
+     43              light_init(Light_Run_PORT,Light_Run1,Light_OFF); //指示灯初始化
+   \   00000004   0122               MOVS     R2,#+1
+   \   00000006   1121               MOVS     R1,#+17
+   \   00000008   ....               LDR.N    R0,??DataTable1  ;; 0x400ff000
+   \   0000000A   ........           BL       light_init
+     44              uart_init (UART0,periph_clk_khz,9600);			 //串口初始化
+   \   0000000E   4FF41652           MOV      R2,#+9600
+   \   00000012   ....               LDR.N    R0,??DataTable1_1
+   \   00000014   0168               LDR      R1,[R0, #+0]
+   \   00000016   ....               LDR.N    R0,??DataTable1_2  ;; 0x4006a000
+   \   00000018   ........           BL       uart_init
+     45          
+     46              //4 开中断
+     47              enableuartreint(UART0,UART0irq);		//开串口3接收中断
+   \   0000001C   2D21               MOVS     R1,#+45
+   \   0000001E   ....               LDR.N    R0,??DataTable1_2  ;; 0x4006a000
+   \   00000020   ........           BL       enableuartreint
+     48              EnableInterrupts;			        //开总中断
+   \   00000024   62B6               CPSIE i         
+     49              
+     50              uart_sendN(UART0,(uint8*)"Hello World!",12);
+   \   00000026   0C22               MOVS     R2,#+12
+   \   00000028   ........           ADR.W    R1,`?<Constant "Hello World!">`
+   \   0000002C   ....               LDR.N    R0,??DataTable1_2  ;; 0x4006a000
+   \   0000002E   ........           BL       uart_sendN
+     51              //主循环
+     52              while(1)
+     53              {
+     54                  //1 主循环计数到一定的值，使小灯的亮、暗状态切换
+     55                  runcount++;
+   \                     ??main_0:
+   \   00000032   641C               ADDS     R4,R4,#+1
+     56                  if(runcount>=5000000)
+   \   00000034   ....               LDR.N    R0,??DataTable1_3  ;; 0x4c4b40
+   \   00000036   8442               CMP      R4,R0
+   \   00000038   FBD3               BCC.N    ??main_0
+     57                  {
+     58                      light_change(Light_Run_PORT,Light_Run1);//指示灯的亮、暗状态切换
+   \   0000003A   1121               MOVS     R1,#+17
+   \   0000003C   ....               LDR.N    R0,??DataTable1  ;; 0x400ff000
+   \   0000003E   ........           BL       light_change
+     59                      runcount=0;
+   \   00000042   0024               MOVS     R4,#+0
+   \   00000044   F5E7               B.N      ??main_0
+     60                  }			
+     61              }
+     62          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   00F00F40           DC32     0x400ff000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_1:
+   \   00000000   ........           DC32     periph_clk_khz
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_2:
+   \   00000000   00A00640           DC32     0x4006a000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_3:
+   \   00000000   404B4C00           DC32     0x4c4b40
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     `?<Constant "Hello World!">`:
+   \   00000000                      ; Initializer data, 16 bytes
+   \   00000000   48656C6C6F20       DC8 72, 101, 108, 108, 111, 32, 87, 111, 114, 108
+   \              576F726C    
+   \   0000000A   642100000000       DC8 100, 33, 0, 0, 0, 0
+     63          
+     64          
+     65          
+     66          
+
+   Maximum stack usage in bytes:
+
+     Function .cstack
+     -------- -------
+     main          8
+
+
+   Section sizes:
+
+     Function/Label             Bytes
+     --------------             -----
+     main                         70
+     ??DataTable1                  4
+     ??DataTable1_1                4
+     ??DataTable1_2                4
+     ??DataTable1_3                4
+     ?<Constant "Hello World!">   16
+
+ 
+ 102 bytes in section .text
+ 
+ 102 bytes of CODE memory
+
+Errors: none
+Warnings: none
